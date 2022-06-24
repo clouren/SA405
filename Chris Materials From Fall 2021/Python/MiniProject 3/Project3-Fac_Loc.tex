@@ -1,0 +1,225 @@
+\documentclass[11pt]{article}
+
+%% MinionPro fonts 
+%\usepackage[lf]{MinionPro}
+%\usepackage{MnSymbol}
+\usepackage{microtype}
+
+%% Margins
+\usepackage{geometry}
+\geometry{verbose,letterpaper,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+
+%% Other packages
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage[shortlabels]{enumitem}
+\usepackage{titlesec}
+\usepackage{soul}
+\usepackage{tikz}
+\usepackage{mathtools}
+\usepackage{optprog}
+\usepackage{pgfplots}
+\usepackage{tikz-3dplot}
+\usepackage{algorithmic}
+\usepackage[export]{adjustbox}
+\usepackage{tcolorbox}
+\usepackage{xcolor}
+\newcommand{\blu}{\color{blue}}
+%% Paragraph style settings
+\setlength{\parskip}{\medskipamount}
+\setlength{\parindent}{0pt}
+
+%% Change itemize bullets
+\renewcommand{\labelitemi}{$\bullet$}
+\renewcommand{\labelitemii}{$\circ$}
+\renewcommand{\labelitemiii}{$\diamond$}
+\renewcommand{\labelitemiv}{$\cdot$}
+
+%% Colors
+\definecolor{rred}{RGB}{204,0,0}
+\definecolor{ggreen}{RGB}{0,145,0}
+\definecolor{yyellow}{RGB}{255,185,0}
+\definecolor{bblue}{rgb}{0.2,0.2,0.7}
+\definecolor{ggray}{RGB}{190,190,190}
+\definecolor{ppurple}{RGB}{160,32,240}
+\definecolor{oorange}{RGB}{255,165,0}
+
+%% Shrink section fonts
+\titleformat*{\section}{\normalsize\bf}
+\titleformat*{\subsection}{\normalsize\bf}
+\titleformat*{\subsubsection}{\normalsize\it}
+
+% %% Compress the spacing around section titles
+\titlespacing*{\section}{0pt}{1.5ex}{0.75ex}
+\titlespacing*{\subsection}{0pt}{1ex}{0.5ex}
+\titlespacing*{\subsubsection}{0pt}{1ex}{0.5ex}
+
+%% amsthm settings
+\theoremstyle{definition}
+\newtheorem{problem}{Problem}
+\newtheorem{example}{Example}
+\newtheorem*{theorem}{Theorem}
+\newtheorem*{bigthm}{Big Theorem}
+\newtheorem*{biggerthm}{Bigger Theorem}
+\newtheorem*{bigcor1}{Big Corollary 1}
+\newtheorem*{bigcor2}{Big Corollary 2}
+
+%% tikz settings
+\usetikzlibrary{calc}
+\usetikzlibrary{patterns}
+\usetikzlibrary{decorations}
+\usepgfplotslibrary{polar}
+
+%% algorithmic setup
+\algsetup{linenodelimiter=}
+\renewcommand{\algorithmiccomment}[1]{\quad// #1}
+\renewcommand{\algorithmicrequire}{\emph{Input:}}
+\renewcommand{\algorithmicensure}{\emph{Output:}}
+
+%% Answer box macros
+%% \answerbox{alignment}{width}{height}
+\newcommand{\answerbox}[3]{%
+  \fbox{%
+    \begin{minipage}[#1]{#2}
+      \hfill\vspace{#3}
+    \end{minipage}
+  }
+}
+
+%% \answerboxfull{alignment}{height}
+\newcommand{\answerboxfull}[2]{%
+  \answerbox{#1}{6.38in}{#2} 
+}
+
+%% \answerboxone{alignment}{height} -- for first-level bullet
+\newcommand{\answerboxone}[2]{%
+  \answerbox{#1}{6.0in}{#2} 
+}
+
+%% \answerboxtwo{alignment}{height} -- for second-level bullet
+\newcommand{\answerboxtwo}[2]{%
+  \answerbox{#1}{5.8in}{#2}
+}
+
+%% special boxes
+\newcommand{\wordbox}{\answerbox{c}{1.2in}{.5cm}}
+\newcommand{\catbox}{\answerbox{c}{.5in}{.7cm}}
+\newcommand{\letterbox}{\answerbox{c}{.7cm}{.5cm}}
+
+%% Miscellaneous macros
+\newcommand{\tstack}[1]{\begin{multlined}[t] #1 \end{multlined}}
+\newcommand{\cstack}[1]{\begin{multlined}[c] #1 \end{multlined}}
+\newcommand{\ccite}[1]{\only<presentation>{{\scriptsize\color{gray} #1}}\only<article>{{\small [#1]}}}
+\newcommand{\grad}{\nabla}
+\newcommand{\ra}{\ensuremath{\rightarrow}~}
+\newcommand{\maximize}{\text{maximize}}
+\newcommand{\minimize}{\text{minimize}}
+\newcommand{\subjectto}{\text{subject to}}
+\newcommand{\trans}{\mathsf{T}}
+\newcommand{\bb}{\mathbf{b}}
+\newcommand{\bx}{\mathbf{x}}
+\newcommand{\bc}{\mathbf{c}}
+\newcommand{\bd}{\mathbf{d}}
+
+%% LP format
+%    \begin{align*}
+%      \maximize \quad & \mathbf{c}^{\trans} \mathbf{x}\\
+%      \subjectto \quad & A \mathbf{x} = \mathbf{b}\\
+%                       & \mathbf{x} \ge \mathbf{0}
+%    \end{align*}
+
+
+%% Redefine maketitle
+\makeatletter
+\renewcommand{\maketitle}{
+  \noindent SA405 -- AMP \hfill \\
+
+  \begin{center}\Large{\textbf{\@title}}\end{center}
+}
+\makeatother
+
+%% ----- Begin document ----- %%
+\begin{document}
+  
+\title{MiniProject 3:  Emergency Service Location}
+
+\maketitle
+
+{\blu \Large \textbf{IP Model and Python Implementation}}
+	\begin{itemize}
+	\item Written description and python implementation due \textbf{Friday 10 Dec at 2359}
+	\end{itemize}
+
+{\blu \Large \bf Ground Rules:}
+	\begin{itemize}
+	\item Can work alone or in groups of 2.
+		\begin{itemize}
+		\item If you work in a group email me the members of your group!
+		\end{itemize}
+	\item You may ask me for help, your textbook/notes, or Google but cite your sources.
+	\end{itemize}
+
+%%%
+\section{The Problem}
+
+A county is deciding where to place police precincts in order to respond to potential emergencies. The county has divided its land area into 40 locations which need police protection. Moreover, they decided that, out of these 40 locations, 20 of them are candidates to place a police station. The county has a budget of \$2,500,000 to place police stations. Each location has a projected demand for police protection. Lastly, each potential candidate locations for a police station has a capacity and fixed cost to open. They hired an OR contractor who hastily gave them the following model.
+
+\textbf{Sets:}
+
+Let $C$ be the set of customer locations $C = \{1,2,3,\hdots, 40\}$
+
+Let $S$ be the set of potential locations to place a police station
+
+\textbf{Parameters:}
+
+Let $h_c$ be the demand of customer location $c$ for all $c \in C$
+
+Let $d_{s,c}$ be the distance between station $s$ and customer $c$ for all $s \in S$ and $c \in C$
+
+Let $u_s$ be the capacity of each police station for all $s \in S$
+
+Let $f_s$ be the fixed cost of opening police station $s$ for all $s \in S$
+
+Let $B$ be the total budget
+
+\textbf{Decision Variables:}
+
+Let $x_s = 1$ if a police station is placed at location $s$ for all $s \in S$
+
+Let $y_{s,c} = 1$ if customer location $c$ is assigned to police station $s$ for all $c \in C$ and $s \in S$
+
+\textbf{Objective Function:}
+
+\[
+\text{minimize: } \sum_{c \in C} \sum_{s \in S} h_c d_{s,c} y_{s,c}
+\]
+
+\textbf{Constraints:}
+
+\begin{optprog}
+& \sum_{s \in S} f_s x_s & \leq & B \\
+& \sum_{s \in S} y_{s,c} & = & 1 & \text{for all $c \in C$} \\
+& \sum_{c \in C} h_c y_{s,c} & \leq & u_s x_s & \text{for all $s \in S$} \\
+& x_s & \in & \{0,1\} & \text{for all $s \in S$} \\
+& y_{s,c} & \in & \{0,1\} & \text{for all $s \in S$, $c \in C$}
+\end{optprog}
+
+
+
+\noindent{\Large \textbf{Part 1: Model Description.}} Explain the provided model. Explain what the objective function does and the purpose of each numbered constraint. This description should be understandable by someone who is not an OR expert. There is no page requirement, but should be long enough to explain the model.
+
+\vspace{0.5in}
+
+%\section{The Assignment}
+\noindent{\Large \textbf{Part 2:  Python implementation.}}
+\begin{enumerate}[a.]
+\item Using the provided project 3 starter file, complete the Jupyter notebook to implement this model. Report which locations should have a police station opened and which location is assigned to each station.
+\item After you have determined the initial set of police stations to open with the \$2,500,000 budget; assume that they are gifted the funds to open 2 more police stations. Determine which additional 2 police stations should be opened based on your solution to part (a). This means they are in addition to the police stations opened in part (a), e.g., you can assume that the stations from part (a) will be built.
+\end{enumerate}
+
+\vspace{0.5in}
+
+\noindent{\Large \textbf{Grading: }} For grading, submit both your model description and Jupyter notebook. The description will count as 20\% of your project 2 grade while the python code will count for 80\% of your project 2 grade.
+
+
+\end{document}

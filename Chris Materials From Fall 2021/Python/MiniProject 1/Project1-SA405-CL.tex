@@ -1,0 +1,225 @@
+\documentclass[11pt]{article}
+
+%% MinionPro fonts 
+%\usepackage[lf]{MinionPro}
+%\usepackage{MnSymbol}
+\usepackage{microtype}
+
+%% Margins
+\usepackage{geometry}
+\geometry{verbose,letterpaper,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+
+%% Other packages
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage[shortlabels]{enumitem}
+\usepackage{titlesec}
+\usepackage{soul}
+\usepackage{tikz}
+\usepackage{mathtools}
+\usepackage{pgfplots}
+\usepackage{tikz-3dplot}
+\usepackage{algorithmic}
+\usepackage[export]{adjustbox}
+\usepackage{tcolorbox}
+\usepackage{xcolor}
+\newcommand{\blu}{\color{blue}}
+%% Paragraph style settings
+\setlength{\parskip}{\medskipamount}
+\setlength{\parindent}{0pt}
+
+%% Change itemize bullets
+\renewcommand{\labelitemi}{$\bullet$}
+\renewcommand{\labelitemii}{$\circ$}
+\renewcommand{\labelitemiii}{$\diamond$}
+\renewcommand{\labelitemiv}{$\cdot$}
+
+%% Colors
+\definecolor{rred}{RGB}{204,0,0}
+\definecolor{ggreen}{RGB}{0,145,0}
+\definecolor{yyellow}{RGB}{255,185,0}
+\definecolor{bblue}{rgb}{0.2,0.2,0.7}
+\definecolor{ggray}{RGB}{190,190,190}
+\definecolor{ppurple}{RGB}{160,32,240}
+\definecolor{oorange}{RGB}{255,165,0}
+
+%% Shrink section fonts
+\titleformat*{\section}{\normalsize\bf}
+\titleformat*{\subsection}{\normalsize\bf}
+\titleformat*{\subsubsection}{\normalsize\it}
+
+% %% Compress the spacing around section titles
+\titlespacing*{\section}{0pt}{1.5ex}{0.75ex}
+\titlespacing*{\subsection}{0pt}{1ex}{0.5ex}
+\titlespacing*{\subsubsection}{0pt}{1ex}{0.5ex}
+
+%% amsthm settings
+\theoremstyle{definition}
+\newtheorem{problem}{Problem}
+\newtheorem{example}{Example}
+\newtheorem*{theorem}{Theorem}
+\newtheorem*{bigthm}{Big Theorem}
+\newtheorem*{biggerthm}{Bigger Theorem}
+\newtheorem*{bigcor1}{Big Corollary 1}
+\newtheorem*{bigcor2}{Big Corollary 2}
+
+%% tikz settings
+\usetikzlibrary{calc}
+\usetikzlibrary{patterns}
+\usetikzlibrary{decorations}
+\usepgfplotslibrary{polar}
+
+%% algorithmic setup
+\algsetup{linenodelimiter=}
+\renewcommand{\algorithmiccomment}[1]{\quad// #1}
+\renewcommand{\algorithmicrequire}{\emph{Input:}}
+\renewcommand{\algorithmicensure}{\emph{Output:}}
+
+%% Answer box macros
+%% \answerbox{alignment}{width}{height}
+\newcommand{\answerbox}[3]{%
+  \fbox{%
+    \begin{minipage}[#1]{#2}
+      \hfill\vspace{#3}
+    \end{minipage}
+  }
+}
+
+%% \answerboxfull{alignment}{height}
+\newcommand{\answerboxfull}[2]{%
+  \answerbox{#1}{6.38in}{#2} 
+}
+
+%% \answerboxone{alignment}{height} -- for first-level bullet
+\newcommand{\answerboxone}[2]{%
+  \answerbox{#1}{6.0in}{#2} 
+}
+
+%% \answerboxtwo{alignment}{height} -- for second-level bullet
+\newcommand{\answerboxtwo}[2]{%
+  \answerbox{#1}{5.8in}{#2}
+}
+
+%% special boxes
+\newcommand{\wordbox}{\answerbox{c}{1.2in}{.5cm}}
+\newcommand{\catbox}{\answerbox{c}{.5in}{.7cm}}
+\newcommand{\letterbox}{\answerbox{c}{.7cm}{.5cm}}
+
+%% Miscellaneous macros
+\newcommand{\tstack}[1]{\begin{multlined}[t] #1 \end{multlined}}
+\newcommand{\cstack}[1]{\begin{multlined}[c] #1 \end{multlined}}
+\newcommand{\ccite}[1]{\only<presentation>{{\scriptsize\color{gray} #1}}\only<article>{{\small [#1]}}}
+\newcommand{\grad}{\nabla}
+\newcommand{\ra}{\ensuremath{\rightarrow}~}
+\newcommand{\maximize}{\text{maximize}}
+\newcommand{\minimize}{\text{minimize}}
+\newcommand{\subjectto}{\text{subject to}}
+\newcommand{\trans}{\mathsf{T}}
+\newcommand{\bb}{\mathbf{b}}
+\newcommand{\bx}{\mathbf{x}}
+\newcommand{\bc}{\mathbf{c}}
+\newcommand{\bd}{\mathbf{d}}
+
+%% LP format
+%    \begin{align*}
+%      \maximize \quad & \mathbf{c}^{\trans} \mathbf{x}\\
+%      \subjectto \quad & A \mathbf{x} = \mathbf{b}\\
+%                       & \mathbf{x} \ge \mathbf{0}
+%    \end{align*}
+
+
+%% Redefine maketitle
+\makeatletter
+\renewcommand{\maketitle}{
+  \noindent SA405 -- AMP \hfill Rader \S 3.1 \\
+
+  \begin{center}\Large{\textbf{\@title}}\end{center}
+}
+\makeatother
+
+%% ----- Begin document ----- %%
+\begin{document}
+  
+\title{Project 1:  Fixed Charge Facility Location}
+
+\maketitle
+
+{\blu \Large \textbf{Project 1: Model Development and Python Implementation}}
+	\begin{itemize}
+	\item Part 1: Integer programming model submission due \textbf{Wednesday 22 September in class}
+	\item Part 2: Python implementation of model due \textbf{Tuesday 28 September at 11:59pm}
+	\end{itemize}
+
+{\blu \Large \bf Ground Rules:}
+	\begin{itemize}
+	\item This is an individual project
+	\item You may ask me for help, your textbook/notes, or Google but cite your sources.
+	\item Late submissions will be deducted 5\% for each hour late.
+	\item Final grade for project 1 will be 50\% of your part 1 grade and 50\% of your part 2 grade.
+	\end{itemize}
+
+%%%
+\section{The Problem}
+
+The Guinness Brewery Company has two breweries (Dublin-B and Kilarny) and three markets (Dublin-M, Galway, and Cork). They have three warehouse locations (Kilgore, Sligo, and Galway), but don't necessarily have to use all of them. They have transportation costs (dollars/case) for moving cases of beer from brewery to warehouse, and from warehouse to market (see the table below).  Note that it is possible to transport cases directly from the brewery to the market in Dublin (Dublin-B to Dublin-M).  Otherwise, the cases must visit a warehouse before being transported to a market.  If they use a warehouse, each one has a monthly operating cost, as well as a maximum capacity.  Each brewery has a monthly supply, and each market has a monthly demand shown below.
+
+
+\begin{center}
+\begin{tabular}{r|ccccc}
+& \multicolumn{5}{c}{Transportation Costs} \\
+& DublinB (B) & Kilarny (B) & Dublin-M (M) & Galway (M) & Cork (M) \\
+\hline
+Kilgore (W) & 15 & 10 & 16 & 12 & 11  \\
+Sligo (W) &  20 & 25 & 21 & 9 & 28  \\
+Galway (W) & 15 & 20 & 16 & 5 & 12 \\
+Dublin-B (B) &  --- & --- & 18 & --- & --- \\
+\hline
+\end{tabular}
+\end{center}
+
+
+\begin{tabular}{r|c}
+Brewery & Supply \\
+\hline
+Dublin-B & 700 \\
+Kilarny & 800 \\
+\end{tabular}
+\hspace{1cm}
+\begin{tabular}{r|c}
+Market & Demand \\
+\hline
+Dublin-M & 600 \\
+Galway & 500 \\
+Cork & 300 \\
+\end{tabular}
+\hspace{1cm}
+\begin{tabular}{r|cc}
+Warehouse & Cost & Capacity \\
+\hline
+Kilgore & 240 & 400 \\
+Sligo & 450 & 800 \\
+Galway & 320 & 600
+\end{tabular}
+
+They want to meet all demand at minimum cost.
+
+\newpage
+%\section{The Assignment}
+\noindent{\Large \textbf{Part 1:  Concrete and Abstract Models}}
+\begin{enumerate}[a.]
+\item Draw a model of the network.
+\item Write a concrete model to solve the Guiness fixed-charge transportation problem.  \emph{Hint:  Begin with a standard minimum-cost network flow model with three warehouses, then modify the model as needed to accomodate the warehouse cost, capacities, and logical constraints.}
+\item Convert the concrete model to parameterized form.
+\item Submit the network diagram and both models (either online or in class).
+\end{enumerate}
+
+\noindent{\Large \textbf{Part 2:  Python implementation}}
+\begin{enumerate}[a.]
+\item Implement and solve the Guinness problem in Python. It will help you in your coding to look at the project 1 helper file posted on blackboard.
+\item Print the solution in a neat, clear format.  In addition to the total cost, the printed solution should include which warehouse(s) to open and how many cases to ship along each of the network arcs.
+\item Submit your Jupyter notebook with all output displayed.
+\end{enumerate}
+		
+
+
+\end{document}
