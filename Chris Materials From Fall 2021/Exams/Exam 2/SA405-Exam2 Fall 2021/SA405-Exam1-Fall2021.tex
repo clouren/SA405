@@ -1,0 +1,465 @@
+\documentclass[12pt]{exam}
+\usepackage[utf8]{inputenc}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{multicol}
+\usepackage{mathrsfs}
+\usepackage{graphicx}
+\usepackage{multicol}
+\usepackage[shortlabels]{enumitem}
+\usepackage{scrextend}
+\usepackage{xcolor}
+\usepackage[normalem]{ulem}
+\usepackage{optprog}
+
+\newcommand{\class}{SA405, Fall 2021}
+\newcommand{\term}{}
+\newcommand{\examnum}{Exam 2}
+\newcommand{\examdate}{4 November 2021}
+\newcommand{\timelimit}{50 Minutes}
+
+\pagestyle{head}
+\firstpageheader{}{}{}
+\runningheader{\class}{\examnum\ - Page \thepage\ of \numpages}{\examdate}
+\runningheadrule
+
+%% Answer box macros
+%%\answerbox{alignment}{width}{height}
+\newcommand{\answerbox}[3]{%
+  \fbox{%
+    \begin{minipage}[#1]{#2}
+      \hfill\vspace{#3}
+    \end{minipage}
+  }
+}
+
+%%\answerboxfull{alignment}{height}
+\newcommand{\answerboxfull}[2]{%
+  \answerbox{#1}{6.38in}{#2} 
+}
+
+%%\answerboxone{alignment}{height} -- for first-level bullet
+\newcommand{\answerboxone}[2]{%
+  \answerbox{#1}{6.0in}{#2} 
+}
+
+%% special boxes
+\newcommand{\wordbox}{\answerbox{c}{1.2in}{.7cm}}
+\newcommand{\catbox}{\answerbox{c}{.5in}{.7cm}}
+\newcommand{\letterbox}{\answerbox{c}{.7cm}{.7cm}}
+
+\printanswers
+%\noprintanswers
+\begin{document}
+
+\noindent
+\begin{tabular*}{\textwidth}{l @{\extracolsep{\fill}} r @{\extracolsep{6pt}} r}
+\textbf{\class} &&\textbf{\examnum}\\
+\textbf{\term} &&\textbf{\examdate}\\
+ && \\
+ && \\
+& \textbf{Name:} & \makebox[2.2in]{\hrulefill}\\\\
+%\textbf{Time Limit: \timelimit} &  & \makebox[2in]{\hrulefill}
+\end{tabular*}
+
+\noindent
+\rule[2ex]{\textwidth}{2pt}
+
+%This exam contains \numpages\ pages (including this cover page) and \numquestions\ questions.\\
+%Total of points is \numpoints.
+
+\begin{itemize}
+%\item You may pull the pages apart and then staple them together at the end.  I prefer not to see your name when I am grading, so only write your name on the first page (unless submitting pages unstapled).
+
+\item %No books, notes, or any other outside help % or calculators
+% that do symbolic manipulation (such as TI-89 or TI-92) 
+ %allowed. %
+ {\bf One sided} 8.5 by 11 inch formula/note sheet is allowed.
+
+%\item You may use your calculator on this test.
+
+\item Show work clearly and neatly.  
+
+\item Define all notation used.
+%\item If you need more space than is provided, use the back of the previous page. 
+
+\item Please read each question carefully.
+If you are not sure what a question is
+asking, ask for clarification.
+
+\item If you start over on a problem, please CLEARLY indicate what your final
+  answer is, along with its accompanying work.
+
+%\item All formulations must have descriptions of any indices, parameters, and decision variables used. All constraints must be described. 
+\end{itemize}
+
+\bigskip
+\begin{center}
+Grade Table (for teacher use only)\\
+\addpoints
+\gradetable[v][questions]
+\end{center}
+
+\noindent
+\rule[2ex]{\textwidth}{2pt}
+
+% I think this is a requirement now
+\emph{Please write the following statement and sign it.}\\
+The Naval Service I am a part of is bound by honor
+and integrity. I will not compromise our values by
+giving or receiving unauthorized help on this exam.
+
+\newpage %%%%%%%
+
+% Adjust points as you'd like, we can make it add up to 100 when the whole thing is done
+\begin{questions}
+\question Anne Arundel County is determining locations for COVID booster shot clinics. They have enough vaccines to open two clinics, each of which would have an allotment of 100,000 booster shots. The potential locations for clinics are Annapolis, Crofton, Severn, and Glen Burnie. The distance (in miles) between each of these potential vaccine clinics and cities they must serve, as well as the demand of each city, is given in the table below.
+
+\begin{center}
+\begin{small}
+\begin{tabular}{c|ccccccc} 
+\hline 
+                & \multicolumn{7}{c}{Distances (miles)} \\
+Clinic Locations   &  Annapolis &  Crofton  &  Edgewater   & Glen Burnie & Odenton     & Parole  & Severn \\ \hline 
+ Annapolis         &      0     &   10      &    15        & 13          & 17          & 6       &  22          \\ 
+ Crofton           &      10    &    0      &    17        & 9           & 11          & 16      &  27          \\ 
+ Glen Burnie       &      17    &   11      &    12        & 0           & 7           & 14      &  11          \\ 
+ Severn            &      22    &   27      &    6         & 8           & 11          & 20      &  0            \\ \hline
+ Demand           &    35,000  &  15,000   &    12,000    & 50,000      & 7,000       & 11,000  & 47,000
+\end{tabular}
+\end{small}
+\end{center}
+
+To get started, the county has defined the following:
+
+\textbf{Sets}
+\begin{itemize}
+    \item [] Let $S$ be the set of possible clinic locations, $S = \{A, C, G, S\}$
+    \item [] Let $C$ be the set of cities needing vaccines, $C = \{A, C, E, G, O, P, S\}$
+\end{itemize}
+
+
+\textbf{Variables}
+
+\begin{itemize}
+    \item [] Let $x_s = 1$ if a vaccine clinic is placed in location $s$ and 0 otherwise for all $s \in S$
+    \item [] Let $y_{c,s} = 1$ if city $c$ is assigned to vaccine clinic $s$ for all $c \in C$ and all $s \in S$, and 0 otherwise.
+\end{itemize}
+\medskip
+
+\begin{parts}
+\newpage
+\part[15] The county has decided that they want to place the clinics in order to minimize the total distance traveled by the people in each city (for example, if Crofton is assigned to Annapolis, then 15,000 people must travel 10 miles to a clinic leading to a cumulative distance traveled of 150,000). 
+
+\medskip
+Assume that if a city is assigned to a clinic, then that clinic will satisfy the entire demand for that city. Write an objective function, in both concrete and parameterized form, that would minimize this total distance traveled. Be sure to define any new parameters used.
+\vfill
+\begin{solution}
+Concrete form:
+\[
+\text{min } 35000*0*y_{A,A}+35000*10*y_{A,C} + 35000*17*y_{A,G} + \cdots + 47,000*0*y_{S,S}
+\]
+
+Parameterized form:
+
+Let $d_{c,s}$ be the distance from customer $c$ to clinic $s$ for all $c \in C$ and $s \in S$
+
+Let $h_c$ be the demand of customer $c$
+
+\[
+\text{min } \sum_{c \in C} \sum_{s \in S} d_{c,s} h_c y_{c,s}
+\]
+
+
+\end{solution}
+\part[10] Since the county only has an allotment for 200,000 total vaccines, they can only open 2 clinics. Using the variables defined above, write a concrete constraint that ensures only two clinics are open.
+\vfill
+\begin{solution}
+\[
+x_{A}+x_{G}+x_{P}+x_{S} = 2
+\]
+\end{solution}
+\newpage
+% \part[5] Additionally, the county wants each city to be assigned to exactly one clinic. Write a parameterized constraint that ensures that each city is assigned to only one clinic.
+% \vfill
+% \begin{solution}
+% \[
+% \sum_{s \in S} y_{c,s} = 1 \text{ for all $c \in C$}
+% \]
+% \end{solution}
+
+\part[10] Since each clinic has an allotment of 100,000 vaccines, you realize that a capacity constraint also needs to be enforced. If the clinic is open, it should be allowed to serve only up to 100,000 people. If the clinic is closed, it should not be able to serve any customers. 
+
+Provide a parameterized constraint that enforces that if a clinic is open, it can service up to 100,000 units of total demand and if it's closed it can't service any demand. Be sure to clearly define any new parameters used.
+    
+    \begin{solution}
+    Let $h_c$ be the demand of customer $c$
+    
+    \[
+    \sum_{c \in C} h_c y_{c,s} \leq 100,000 x_s \text{ for all $s \in S$}
+    \]
+    
+    \end{solution}
+    % \begin{subparts}
+    % \subpart[5] Write a concrete constraint that enforces if Annapolis location is open, it can service up to 100,000 units of demand. If it's closed, it can't service any demand.
+    % \begin{solution}
+    % \[
+    % 35,000 y_{A,A} + 15,000 y_{C,A} + 12,000 y_{E,A} + 50,000 y_{G,A} + 7,000 y_{O,A} + 
+    % \]
+    % \[
+    % 11,000 y_{P,A} + 47,000 y_{S,A} \leq 100,000 x_{A}
+    % \]
+    % \end{solution}
+    % \vfill
+    
+    % \end{subparts}
+    
+    \vfill
+\part[10] Lastly, you realize that you are missing a constraint linking your $x_s$ variables and $y_{c,s}$ variables. Specifically, you should only be able to assign a city to a clinic if that clinic is open. 
+
+Write a concrete constraint which enforces that, if Annapolis is assigned to Crofton, then the clinic at Crofton must be open.
+    \vfill
+        \begin{solution}
+        \[
+        y_{A, C} \leq x_{C}
+        \]
+        \end{solution}
+        
+    % \begin{subparts}
+
+    % \subpart [4] 
+    % \subpart[6] Parameterize your constraint above so that it enforces this logic for every city and clinic combination.
+    % \begin{solution}
+    % \[
+    % y_{c,s} \leq x_s \text{ for all $c \in C$ and $s \in S$}
+    % \]
+    % \end{solution}
+    % \end{subparts}
+    \vfill
+% \part You finally implement your model in Python. The solution returned is that you should open clinics in Annapolis and Glen Burnie. Annapolis serves Annapolis, Crofton, Edgewater, Odenton, and Parole. Glen Burnie serves Glen Burnie and Severn.
+%     \begin{subparts}
+%     \subpart[3] For this solution, which variables are non-zero?
+%     \begin{solution}
+%     \[
+%     x_{A} = x_{G} = 1
+%     \]
+%     \[
+%     y_{A,A} = y_{P,A} = y_{C,A} = y_{E,A} = y_{O,A} = 1
+%     \]
+%     \[
+%     y_{G,G} = y_{S,G} = 1
+%     \]
+%     All other variables are 0.
+%     \end{solution}
+%     \vfill
+    
+%     % \textcolor{blue}{I think we should get rid of this one. If they are crunched for time, then this will require a lot of time to punch these numbers into their calculators.}
+%     % \subpart[2] What is the optimal objective function value? In words, what does this objective function value mean?
+%     % \begin{solution}
+%     % The optimal objective function value is:
+%     % \[
+%     % 35000*0+15000*10+12000*15+50000*0+7000*17+11000*6+47000*11 = 1,032,000
+%     % \]
+%     % This means that the total miles traveled to get all people vaccinated is $1,032,000$.
+%     % \end{solution} \vfill
+    
+%     \newpage
+%     \end{subparts}
+\end{parts}
+\newpage
+
+\question 
+
+
+Dwight Schrute has been tasked by the Dant with visiting the set $R$ of restaurants in order to rate them.
+
+
+\begin{align*}
+    R = & \{\textrm{McDonald's, Burger King, Popeye's, ChickFilA, PF Changs,}\\ 
+    &\textrm{Basmati, El Cabrito, Chevy's, Pizza Hut, Domino's Pizza}\}
+\end{align*}
+
+\medskip
+
+The Dant wants Dwight Schrute, Kevin Malone, and Oscar Martinez to review these restaurants in order to minimize the similarities between consecutively visited restaurants (e.g., He wants you to avoid visiting McDonald's and Burger King one after the other because they taste so similar). 
+
+The following table displays the similarity factor $s$ between each pair of restaurants. A value of $0$ means that the restaurants have exactly the same menu, and a value of $10$ means that they are polar opposite restaurants. The restaurants are all numbered 0 (USNA) to 10 (Domino's).
+
+% Chris Comment: I would suggest adding in a node 0 somehow here. Maybe not but I was a little confused. Also, I'd suggest numbering the restuarants from 1-10 in order to make our grading lives easier :). Lastly, I'd suggest deleting the 0s because it makes it seem like self edges are there.
+
+\begin{center}
+\begin{tabular}{c|ccccccccccc} 
+\hline 
+  & 0& 1 & 2 & 3 &  4 &  5 & 6 & 7 & 8 & 9 & 10 \\ \hline
+ 0 & - & 10 & 10 & 10 & 10 & 10 & 10 & 10 & 10 & 10 & 10 \\
+ 1 & -& - & 1 & 4 & 5 & 8 & 8 & 9 & 9 & 7 & 7 \\
+ 2 & -& - & - & 4 & 6 & 7 & 8 & 10 & 9 & 7 & 7 \\
+ 3 & -& - & - & - & 1 & 7 & 9 & 9 & 9 & 7 & 7 \\
+ 4 & - & - &  - & - & - & 8 & 4 & 9 & 8 & 7 & 8 \\
+ 5 & - & -& - & - & - & - & 3 & 6 & 7 & 4 & 4 \\
+ 6 & - & - & -& - & - & - & - & 9 & 10 & 3 & 6 \\
+ 7  & - & - & -& - & - & - & - & - & 1 & 6 & 9 \\
+ 8 & - & - & - & -& - & - & - & - & - & 4 & 6 \\
+ 9 & - & - & - & -& - & - & - & - & - & - & 1 \\
+ 10 & - & - & - & -& - & - & - & - & - & - & - \\
+\end{tabular}
+\end{center}
+
+
+
+\begin{parts}
+\newpage
+% Added a new page because I ran out of space on this one
+
+% For point breakdown, I'd suggest either 20-20-10 OR 20-15-15
+\part [20]
+The Dant is allowing the three drivers to split up the task of visiting these restaurants among the three of them. Assume that each driver must start at USNA and you must return after they've visited every restaurant, provide the (abbreviated) concrete integer programming formulation in order to complete the Dant's assignment. If an exponential number of constraints exist in your model, provide an example of at least two of them. Clearly define all decision variables required to model this problem.
+
+\begin{solution}
+\textbf{\underline{Decision Variables}}
+
+Let $x_{0,1} = 1$ if edge $(0,1)$ is included in a route
+
+$\vdots$
+
+Let $x_{9,10} = 1$ if edge $(9,10)$ is included in a route
+
+\textbf{\underline{Objective Function}}
+\[
+\text{maximize } 10 x_{0,1}+10x_{0,2} + \hdots 1 x_{9,10}
+\]
+\textbf{OR}
+\[
+\text{minimize } 1/10 x_{0,1} + 1/10 x_{0,2} + \hdots 1 x_{9,10}
+\]
+
+\textbf{\underline{Constraints}}
+
+\begin{optprog*}
+& x_{0,1}+x_{0,2}+\hdots x_{0,10} & = & 2*3 & \text{(node 0)} \\
+& x_{0,1}+x_{1,2}+\hdots x_{1,10} & = & 2 & \text{(node 1)} \\
+& \vdots \\
+& x_{0,10}+x_{1,10}+\hdots x_{9,10} & = & 2 & \text{(node 10)} \\
+& x_{1,2}+x_{1,3}+x_{2,3} & \leq & 2 & \text{(example subtour for 1,2,3)} \\
+& x_{1,2}+x_{1,3}+x_{1,4} + x_{2,3}+x_{2,4}+x_{3,4} & \leq & 3 & \text{(example subtour for 1,2,3,4)} \\
+& x_{0,1}, x_{0,2}, \hdots, x_{9,10} & \in & \{0,1\} & \text{(binary)}
+\end{optprog*}
+
+
+\end{solution}
+
+
+\newpage
+
+\part [20] For the same problem, provide the parameterized integer programming model for solving the Dant's assignment. Clearly define all required decision variables, sets, and parameters not already provided to you.
+
+\begin{solution}
+\textbf{\underline{Sets}}
+Let $N$ be the set of nodes
+
+Let $R$ be the set of restaurants
+
+Let $E$ be the set of edges
+
+\textbf{\underline{Decision Variables}}
+
+Let $x_{i,j} = 1$ if edge $(i,j)$ is included in a route for all $(i,j) \in E$
+
+\textbf{\underline{Parameters}}
+
+Let $s_{i,j}$ be the similarity factor of edge $(i,j)$ for all $(i,j) \in E$
+
+
+\textbf{\underline{Objective Function}}
+\[
+\text{maximize } \sum_{(i,j) \in E} s_{i,j} x_{i,j}
+\]
+\textbf{OR}
+\[
+\text{minimize } \sum_{(i,j) \in E} 1/s_{i,j} x_{i,j}
+\]
+
+\textbf{\underline{Constraints}}
+
+\begin{optprog*}
+& \sum_{(0,j) \in E} x_{0,j} & = & 2*3 & &\text{(node 0)} \\
+& \sum_{(i,n) \in E} x_{i,n} + \sum_{(n,j) \in E} x_{n,j} & = & 2 & \text{for all $n \in R$} & \text{(all other nodes)} \\
+& \sum_{(i,j) \in E: i \in S, j \in S} x_{i,j} & \leq & |S| - 1 & \text{for all $S \subset R$, $|S| \geq 3$} & \text{(subtour)} \\
+& x_{i,j} & \in & \{0,1\} & \text{for all $(i,j) \in E$} & \text{(binary)}
+\end{optprog*}
+
+
+\end{solution}
+\newpage
+\part [15]
+The Dant now realizes that he wants to make sure that Dwight, Kevin, and Oscar don't exceed 2500 calories while visiting their sequence of restaurants. The following table below includes the number calories that would be consumed if visited by one of the three reviewers:
+
+\begin{center}
+\begin{tabular}{c|cccccccccc} 
+\hline 
+ & McD(1) & BK(2) & Pop(3) &  CFA(4) &  PF(5) & B(6) & EC(7) & C(8) & PH(9) & DP(10) \\ \hline
+ Cal. & 800 & 750 & 850 & 600 & 550 & 700 & 900 & 450 & 550 & 650 \\
+\end{tabular}
+\end{center}
+
+Given this extra constraint, Dwight computed the following solution:
+\begin{itemize}
+    \item  Dwight visits restaurants in the order $\{ \textrm{USNA, McD, PF, B}\}$
+    \item Oscar visits restaurants in the order $\{ \textrm{USNA, BK, EC, Pop, CFA}\}$
+    \item Kevin visits restaurants in the order $\{ \textrm{USNA, C, PH, and DP}\}$
+\end{itemize}
+
+
+Is this solution feasible? If not, provide a concrete inequality that eliminates this solution as well as all other similar ones.
+\end{parts}
+
+\begin{solution}
+This solution is not feasible, Oscar exceeds daily amount.
+
+\[
+x_{BK,EC}+x_{BK,Pop}+x_{BK,CFA} + x_{EC,Pop}+x_{EC,CFA}+x_{Pop,CFA}  \leq 4-2
+\]
+\end{solution}
+
+\end{questions}
+\end{document}
+
+% \begin{center}
+% \begin{tabular}{c|ccccc} 
+% \hline 
+% Sensor   &  1 & 2 & 3 & 4 & 5 \\ \hline 
+%  1 &  -  & - & 100 & 150 & -             \\ 
+%  2 &  -             & - & 200 & 80 & -             \\ 
+%  3 & 150 & 80 &  - & - & 120 \\
+%  4 & 100 & 200 & - & - & 135 \\ 
+%  5 & - & - & - & 120 & 135 \\
+% \end{tabular}\label{table1}
+% \end{center}
+
+
+
+
+% \begin{center}
+% \begin{tabular}{c|ccccc} 
+% \hline 
+% Sensor   &  1 & 2 & 3 & 4 & 5 \\ \hline 
+%  1 &  -  & - & 40 & 50 & -             \\ 
+%  2 &  -             & - & 20 & 30 & -             \\ 
+%  3 & 50 & 30 &  - & - & 100 \\
+%  4 & 40 & 20 & - & - & 200 \\ 
+%  5 & - & - & - & 100 & 200 \\
+% \end{tabular}\label{table2}
+% \end{center}
+
+
+
+% \begin{center}
+% \begin{tabular}{c|ccc} 
+% \hline 
+% Sensor   &  Gathering/Analyzing Amount \\ \hline 
+%  1 &  75            \\ 
+%  2 &  75           \\ 
+%  5 & 150
+% \end{tabular}\label{table3}
+% \end{center}

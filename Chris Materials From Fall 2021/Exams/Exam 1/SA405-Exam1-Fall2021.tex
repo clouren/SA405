@@ -1,0 +1,549 @@
+\documentclass[12pt]{exam}
+\usepackage[utf8]{inputenc}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{multicol}
+\usepackage{mathrsfs}
+\usepackage{graphicx}
+\usepackage{multicol}
+\usepackage[shortlabels]{enumitem}
+\usepackage{scrextend}
+\usepackage{xcolor}
+\usepackage[normalem]{ulem}
+\usepackage{optprog}
+
+\newcommand{\class}{SA305, Spring 2021}
+\newcommand{\term}{}
+\newcommand{\examnum}{Exam 2}
+\newcommand{\examdate}{2 April 2021}
+\newcommand{\timelimit}{50 Minutes}
+
+\pagestyle{head}
+\firstpageheader{}{}{}
+\runningheader{\class}{\examnum\ - Page \thepage\ of \numpages}{\examdate}
+\runningheadrule
+
+%% Answer box macros
+%%\answerbox{alignment}{width}{height}
+\newcommand{\answerbox}[3]{%
+  \fbox{%
+    \begin{minipage}[#1]{#2}
+      \hfill\vspace{#3}
+    \end{minipage}
+  }
+}
+
+%%\answerboxfull{alignment}{height}
+\newcommand{\answerboxfull}[2]{%
+  \answerbox{#1}{6.38in}{#2} 
+}
+
+%%\answerboxone{alignment}{height} -- for first-level bullet
+\newcommand{\answerboxone}[2]{%
+  \answerbox{#1}{6.0in}{#2} 
+}
+
+%% special boxes
+\newcommand{\wordbox}{\answerbox{c}{1.2in}{.7cm}}
+\newcommand{\catbox}{\answerbox{c}{.5in}{.7cm}}
+\newcommand{\letterbox}{\answerbox{c}{.7cm}{.7cm}}
+
+\printanswers
+%\noprintanswers
+\begin{document}
+
+\noindent
+\begin{tabular*}{\textwidth}{l @{\extracolsep{\fill}} r @{\extracolsep{6pt}} r}
+\textbf{\class} &&\textbf{\examnum}\\
+\textbf{\term} &&\textbf{\examdate}\\
+ && \\
+ && \\
+\emph{Midshipmen are persons of integrity.}& \textbf{Name:} & \makebox[2.2in]{\hrulefill}\\\\
+%\textbf{Time Limit: \timelimit} &  & \makebox[2in]{\hrulefill}
+\end{tabular*}
+
+\noindent
+\rule[2ex]{\textwidth}{2pt}
+
+%This exam contains \numpages\ pages (including this cover page) and \numquestions\ questions.\\
+%Total of points is \numpoints.
+
+\begin{itemize}
+%\item You may pull the pages apart and then staple them together at the end.  I prefer not to see your name when I am grading, so only write your name on the first page (unless submitting pages unstapled).
+
+\item %No books, notes, or any other outside help % or calculators
+% that do symbolic manipulation (such as TI-89 or TI-92) 
+ %allowed. %
+ {\bf One} 8.5 by 11 inch formula/note sheet is allowed.
+
+%\item You may use your calculator on this test.
+
+\item Show work clearly and neatly.  
+
+\item Define all notation used.
+%\item If you need more space than is provided, use the back of the previous page. 
+
+\item Please read each question carefully.
+If you are not sure what a question is
+asking, ask for clarification.
+
+\item If you start over on a problem, please CLEARLY indicate what your final
+  answer is, along with its accompanying work.
+
+%\item All formulations must have descriptions of any indices, parameters, and decision variables used. All constraints must be described. 
+\end{itemize}
+
+\bigskip
+\begin{center}
+Grade Table (for teacher use only)\\
+\addpoints
+\gradetable[v][questions]
+\end{center}
+
+\noindent
+\rule[2ex]{\textwidth}{2pt}
+
+\newpage %%%%%%%
+\begin{questions}
+\question Consider the following LP.
+\begin{optprog*}
+max & \objective{2 x_1 - x_2 + x_3} \\
+st  & x_1 + x_2 - 3 x_3 & \leq & 12 \\
+    & -2 x_1 - x_2 + 4 x_3 & \geq & 4 \\
+    & 2 x_1 + x_2 - x_3 & = & 5 \\
+    & x_1               & \leq & 0 \\
+    & x_2               & & \text{Free} \\
+    & x_3               & \geq & 0
+\end{optprog*}
+
+\begin{parts}
+%\part [2] Verify that the point $(x_1, x_2, x_3) = (0,8,3)$ is a basic solution of this LP.
+
+%\begin{solution}
+%If this is a basic solution, it must have 3 binding linearly independent constraints. So, consider constraints (3), (4) and (5). In (3) we have: $-2*0-8+4*3 = 12-8=4$. For constraint (4) we have $2*0+8-3 = 5$. Finally, for constraint (5), we have $0 =0$. So yes, this is a basic solution.
+%\end{solution}
+
+%\part [2] Is the point $(x_1, x_2, x_3) = (0,8,3)$ a basic feasible solution of this LP?
+
+%\begin{solution}
+%Yes. Constraint (2) is satisfied, as well (6) and (7)
+%\end{solution}
+
+\part[12] Convert this LP to Canonical form.
+
+\vfill
+
+\begin{solution}
+We convert $x_1 = -x_1'$ and $x_2 = x_2^+ - x_2^-$. We also add a slack variable to the first constraint and subtract a slack variable from the second constraint. Altogether, we obtain the following LP:
+\begin{optprog*}
+max & \objective{-2 x_1' - (x_2^+ - x_2^-) + x_3} \\
+st  & -x_1' + (x_2^+ - x_2^-) - 3 x_3 + s_1 & = & 12 \\
+    & 2 x_1' - (x_2^+ - x_2^-) + 4 x_3 -s_2 & = & 4 \\
+    & -2 x_1' + (x_2^+ - x_2^-) - x_3 & = & 5 \\
+    & x_1'               & \geq & 0 \\
+    & x_2^+, x_2^-       & \geq & 0 \\
+    & x_3                & \geq & 0 \\
+    & s_1, s_2           & \geq & 0
+\end{optprog*}
+\end{solution}
+
+\part [3] Write the basic feasible solution $(x_1, x_2, x_3) = (0,8,3)$ as a basic solution of the canonical form LP you found in part (a).
+
+\vspace{1in}
+
+\begin{solution}
+The basic feasible solution of our canonical form LP must have a value for every variable in the LP. There must be 3 basic variables. Specifically, since the first constraint is non-binding, it must be the case that $s_1 = 13$. Thus, the solution is:
+\[
+(x_1', x_2^+, x_2^-, x_3, s_1, s_2) = (0, 8, 0, 3, 13, 0)
+\]
+\end{solution}
+
+\end{parts}
+
+\newpage
+
+\question Consider the following LP:
+
+\begin{optprog*}
+max & \objective{-3 x_1 + 5 x_2 - x_3} \\
+st  & 2 x_1 - 3 x_2 - x_3 & \leq & 8 \\
+    & 3 x_1 - 2 x_2 - x_3 & \geq & 4 \\
+    & x_1 + x_2 - 4 x_3 & \leq & 3 \\
+    & x_1, x_2, x_3 & \geq & 0
+\end{optprog*}
+
+%Suppose we are at the point $x^0 = (3,0,0)$.
+Suppose we are at the point $x^0 = (2,1,0)$.
+
+
+\begin{parts}
+\part[3] What is the objective function value associated with $x^0$? \vspace{0.5in}
+
+\begin{solution}
+$ z= -1$
+\end{solution}
+
+\part Suppose I am considering the directions $d_1 = (1, -1, 0)$ and $d_2 = (1,1,1)$.
+
+\begin{subparts}
+\subpart[3] Is the direction $d_1$ improving at the point $x^0$? %\vspace{1in}
+
+\begin{solution}
+A direction must satisfy:
+\[
+\nabla z d \geq 0 \Rightarrow -3 d_1 + 5 d_2 - d_3 \geq 0
+\]
+
+to be improving. In this case we have $-3-5 = -8 < 0$ so $d_1$ is not improving.
+\end{solution}
+
+\subpart[5] Is the direction $d_1$ feasible at the point $x^0$? %\vspace{1.5in}
+
+\begin{solution}
+Based on the binding constraints, a direction must satisfy:
+
+\begin{optprog*}
+    & 3 d_1 - 2 d_2 - d_3 & \geq & 0 \\
+    & d_1 + d_2 - 4 d_3 & \leq & 0 \\
+    & d_3 & \geq & 0
+\end{optprog*}
+
+In this case we have $5\geq 0$, $0 \leq 0$, and $0 \geq 0$.
+\end{solution}
+
+\subpart[3] Is the direction $d_2$ improving at the point $x^0$? %\vspace{1in}
+
+\begin{solution}
+A direction must satisfy:
+\[
+\nabla z d \geq 0 \Rightarrow -3 d_1 + 5 d_2 - d_3 \geq 0
+\]
+
+to be improving. In this case we have $-3+5-1 = 1 > 0$ so $d_2$ is improving.
+\end{solution}
+
+\subpart[5] Is the direction $d_2$ feasible at the point $x^0$? %\vspace{1.5in}
+\begin{solution}
+Based on the binding constraints, a direction must satisfy:
+
+\begin{optprog*}
+    & 3 d_1 - 2 d_2 - d_3 & \geq & 0 \\
+    & d_1 + d_2 - 4 d_3 & \leq & 0 \\
+    & d_3 & \geq & 0
+\end{optprog*}
+
+In this case we have $0\geq 0$, $-2 \leq 0$, and $1 \geq 0$.
+\end{solution}
+\subpart[3] If you were to choose a direction to take a step in, which direction would you pick? %\vspace{0.75in}
+\begin{solution}
+We would pick $d_2$ because it is feasible and improving.
+\end{solution}
+\subpart[8] Compute the maximum possible step size $\lambda$ of the direction you chose. %\vspace{4in}
+
+\begin{solution}
+
+$x^1 = x^0 + \lambda d_2 = (2,1,0) + \lambda (1,1,1) = (2+\lambda, 1+\lambda, \lambda)$
+
+Plugging in, we obtain
+
+\begin{optprog*}
+    & 2 (2+\lambda) - 3 (1+\lambda) - \lambda & \leq & 8 \\
+    & 3 (2+\lambda) - 2 (1+\lambda) - \lambda & \geq & 4 \\
+    & (2+\lambda) + (1+\lambda) - 4 \lambda & \leq & 3 \\
+    & (2+\lambda), (1+\lambda), \lambda & \geq & 0
+\end{optprog*}
+
+Which leads to:
+
+\begin{optprog*}
+    & \lambda & \geq & -7/2 \\
+    & 4 & \geq & 4 \\
+    & \lambda & \geq & 0 \\
+    & \lambda & \geq & -2 \\
+    & \lambda & \geq & -1 \\
+    & \lambda & \geq & 0
+\end{optprog*}
+
+So $\lambda$ has no upper bound.
+
+\end{solution}
+
+\subpart[5] At this point, what is the next step of the improving search algorithm? If the algorithm is complete, what is the conclusion about this LP?
+
+\begin{solution}
+This LP is unbounded.
+\end{solution}
+
+\end{subparts}
+
+%\part[3] What are the conditions that a direction, $d = (d_1, d_2, d_3)$ must satisfy in order to be improving at $x^0$?
+%\begin{solution}
+%\[
+%\nabla z d \geq 0 \Rightarrow -3 d_1 + 5 d_2 - d_3 \geq 0
+%\]
+%\end{solution}
+%\part[5] What are the conditions that a direction, $d = (d_1, d_2, d_3)$ must satisfy in order to be feasible at $x^0$?
+%\begin{solution}
+%A direction must satisfy the following constraints:
+%\begin{optprog*}
+%& d_1 + d_2 - 4 d_3 & \leq & 0 \\
+%& d_2 & \geq & 0 \\
+%& d_3 & \geq & 0
+%\end{optprog*}
+%\end{solution}
+
+%Suppose I decide to take a step in the direction $d_1 = (-1, 1, 0)$.
+
+%\part[3] Verify that the direction $d_1$ is a feasible and improving direction.
+
+%\begin{solution}
+%Improving: $-3*-1+5*1 = 8 > 0$ improving for max
+
+%Feasibility: $-1+1+0 \leq 0$ and $1 \geq 0$, $0\geq 0$
+%\end{solution}
+
+%\part[5] Compute the maximum possible step size $\lambda$.
+%\begin{solution}
+%$x^1 = x^0 + \lambda d_1 = (3,0,0) + \lambda (-1,1,0) = (3-\lambda, \lambda, 0)$
+
+%Plugging in, we obtain
+%\begin{optprog*}
+%    & 2 (3 - \lambda) - 3 \lambda  & \leq & 8 \\
+%    & 3 (3 - \lambda) - 2 \lambda & \geq & 4 \\
+%    & (3 - \lambda) + \lambda & \leq & 3 \\
+%    & (3 - \lambda), \lambda & \geq & 0
+%\end{optprog*}
+
+%Which leads to:
+
+%\begin{optprog*}
+ %   & \lambda & \geq & -2/5 \\
+  %  & \lambda & \leq & 1 \\
+   % & \lambda & \leq & 3 \\
+    %& \lambda & \geq & 0
+%\end{optprog*}
+
+%So the maximum possible step size is $\lambda = 1$
+
+%\end{solution}
+
+%\part[2] Using the step size computed above, compute point $x^1$.
+%\begin{solution}
+%$x^1 = x^0 + \lambda d_1 = (3,0,0) + 1 (-1,1,0) = (2, 1, 0)$
+%\end{solution}
+
+%\part[2] What are the conditions that a direction $d = (d_1, d_2, d_3)$ must satisfy in order to be improving at $x^1$?
+
+%\begin{solution}
+%\[
+%\nabla z d \geq 0 \Rightarrow -3 d_1 + 5 d_2 - d_3 \geq 0
+%\]
+%\end{solution}
+
+%\part[5] What are the conditions that a direction $d = (d_1, d_2, d_3)$ must satisfy in order to be feasible at $x^1$?
+%\begin{solution}
+%Based on the binding constraints, a direction must satisfy:
+
+%\begin{optprog*}
+%    & 3 d_1 - 2 d_2 - d_3 & \geq & 0 \\
+%    & d_1 + d_2 - 4 d_3 & \leq & 0 \\
+%    & d_3 & \geq & 0
+%\end{optprog*}
+
+%\end{solution}
+
+%Now, suppose I want to take a step in the direction $d_2 = (1,1,1)$.
+
+%\part[3] Verify that the direction $d_2$ is a feasible and improving direction at $x^1$.
+%\begin{solution}
+%Improving: $-3*1+5*1-1 = 1 > 0$
+%Feasible: 
+%\begin{optprog*}
+%    & 3 *1 - 2 *1 - 1 = 0 & \geq & 0 \\
+%    & 1 + 1 - 4 *1 = -2 & \leq & 0 \\
+%    & 1 & \geq & 0
+%\end{optprog*}
+%\end{solution}
+
+%\part[5] Compute the maximum possible step size $\lambda$.
+%\begin{solution}
+
+%$x^2 = x^1 + \lambda d_2 = (2,1,0) + \lambda (1,1,1) = (2+\lambda, 1+\lambda, \lambda)$
+
+%Plugging in, we obtain
+
+%\begin{optprog*}
+%    & 2 (2+\lambda) - 3 (1+\lambda) - \lambda & \leq & 8 \\
+%    & 3 (2+\lambda) - 2 (1+\lambda) - \lambda & \geq & 4 \\
+%    & (2+\lambda) + (1+\lambda) - 4 \lambda & \leq & 3 \\
+%    & (2+\lambda), (1+\lambda), \lambda & \geq & 0
+%\end{optprog*}
+
+%Which leads to:
+
+%\begin{optprog*}
+%    & \lambda & \geq & -7/2 \\
+%    & 4 & \geq & 4 \\
+%    & \lambda & \geq & 0 \\
+%    & \lambda & \geq & -2 \\
+%    & \lambda & \geq & -1 \\
+%    & \lambda & \geq & 0
+%\end{optprog*}
+
+%So $\lambda$ has no upper bound.
+
+%\end{solution}
+
+%\part[5] At this point, what is the next step of the improving search algorithm? If the algorithm is complete, what is the conclusion about this LP?
+
+%\begin{solution}
+%This LP is unbounded
+%\end{solution}
+
+\end{parts}
+
+
+\newpage
+
+\question Consider the canonical form linear program below. 
+
+% Changed to max to be more tricky for True/False
+\begin{optprog}
+max & \objective{4 x_1 +3x_2} \\
+st  & x_1 +x_2 +x_3 & = & 40 \\
+    & 2x_1 + x_2 +x_4 & = & 60 \\
+    & x_1               & \geq & 0 \\
+    & x_2       & \geq & 0 \\
+    & x_3                & \geq & 0 \\
+    & x_4           & \geq & 0 
+\end{optprog}
+\begin{parts}
+\part[5] Identify the matrices $c$, $x$, $A$, and $b$. %\vspace{1.5in} 
+\begin{solution}
+\[
+A = \begin{bmatrix}
+1 & 1 & 1 & 0 \\
+2 & 1 & 0 & 1 
+\end{bmatrix},
+b = \begin{bmatrix}
+40 \\
+60 
+\end{bmatrix},
+c = \begin{bmatrix}
+4 \\
+3 \\
+0 \\
+0
+\end{bmatrix}
+,
+x = \begin{bmatrix}
+x_1 \\
+x_2 \\
+x_3 \\
+x_4
+\end{bmatrix}
+\]
+\end{solution}
+
+\part[3] What 2 conditions must be satisfied in order for a solution $x$ to be basic? %\vspace{1in}
+
+\begin{solution}
+\begin{enumerate}
+    \item All equality constraints must be satisfied. 
+    \item $n$ constraints must be active.
+\end{enumerate}
+\end{solution}
+
+\part[2] For the LP above, how many non-negativity constraints must be active at a basic solution? %\vspace{0.5in}
+
+\begin{solution}
+2
+\end{solution}
+
+\part Consider the basic solution associated with the basis $\{x_3, x_4\}$. 
+    \begin{subparts}
+    \subpart[3] Identify the basic and nonbasic variables, $x_B$ and $x_N$ (\textit{Hint:} Remember that the basic variables and the basis are related). %\newpage
+
+    \begin{solution}
+$x_{N} = \begin{bmatrix} x_1 \\ x_2\end{bmatrix}$, $x_{B} = \begin{bmatrix} x_3 \\ x_4\end{bmatrix}$,
+
+\end{solution}
+    \subpart[7] Construct the basic solution associated with the basis $\{x_3, x_4\}$. \vspace{2in}
+    \begin{solution} Recall $x_{N} = 0$. Then, the solution is of the form $x = \begin{bmatrix} 0\\ 0\\ x_3\\x_4\end{bmatrix}$. Substituting $x$ into the equalities we get the system of equations $0+0+x_3 =40, 2(0)+0+x_4 = 60$ so $x_3 = 40$ and $x_4 = 60$. Then $x = \begin{bmatrix} 0\\ 0\\ 40\\60\end{bmatrix}$.
+\end{solution}
+    \end{subparts}
+
+
+
+%\part[5] Consider computing the basic solution of $x$ associated with active constraints \textcolor{red}{(1), (2), (4), and (6)}. What is the set of equations that should be solved to determine the basic solution? 
+
+
+%\part[5] What are the variables $x_{N}$ and $x_{B}$?
+
+
+%\part[5] Find the basic solution associated with active constraints \textcolor{red}{(1), (2), (4), and (6)}.
+
+
+
+
+
+\part[5] Is the solution $x = \begin{bmatrix} 0\\ 0 \\ 0\\ 0  \end{bmatrix}$ a basic solution? An extreme point?  %\vspace{2in}
+
+\begin{solution}
+This solution is not basic or feasible because none of the equality constraints are satisfied. 
+\end{solution}
+
+
+\part[5] Is the solution $x = \begin{bmatrix} 20\\ 0 \\ 20\\ 20  \end{bmatrix}$ a basic solution? An extreme point? % \vspace{2in}
+\begin{solution}
+Note, only 3 constraints are active. So this solution is not basic. However, this solution is feasible.
+\end{solution}
+
+\newpage
+\part[5] Determine if the basic feasible solutions $\begin{bmatrix} 20\\ 20 \\ 0\\ 0  \end{bmatrix}$ and $\begin{bmatrix} 30\\ 0 \\ 10\\ 0  \end{bmatrix}$ are adjacent. Explain why or why not. %\vspace{2in}
+
+\begin{solution}
+Yes. Two solutions are adjacent if they share $n-1$ common linearly independent binding constraints. So, for the first point, constraints (2), (3), (6) and (7) are binding. For the second point, constraints (2), (3), (5), and (7) are binding. So these two points only differ by 1 constraint.
+\end{solution}
+
+\end{parts}
+
+\newpage 
+
+\question Circle/write TRUE if the statement is TRUE and FALSE if the statement is FALSE. 
+\begin{parts}
+%\part[2] T/F A basic solution for a canonical form LP has $m$ active non-negativity. constraints. 
+\part[2] TRUE \hspace{0.5cm} FALSE: A basic solution is an extreme point. \vspace{0.5in} 
+\begin{solution}
+False, a basic solution must be feasible to be an extreme point.
+\end{solution}
+\part[2] TRUE \hspace{0.5cm} FALSE: If an LP has an optimal solution, the optimal solution is attained at an extreme point.  \vspace{0.5in}
+\begin{solution}
+True, optimal solutions are corner points (and the points connecting them if multiple optimal) if there is an optimal solution.
+\end{solution}
+\part[2] TRUE \hspace{0.5cm} FALSE: A local optimum for an LP is always a global optimum.  \vspace{0.5in}
+\begin{solution}
+True, because the feasible region of an LP is convex and we are maximizing/minimizing a convex function over a convex set.
+\end{solution}
+\part[2] TRUE \hspace{0.5cm} FALSE: For a canonical form LP, a direction is feasible if $Ad = 0$. \vspace{0.5in}
+\begin{solution}
+False, this is one of two conditions the second being that $d_i \geq 0$ for all $x_i = 0$
+\end{solution}
+\part[2] TRUE \hspace{0.5cm} FALSE: A canonical form LP must always have an objective function that is maximizing. \vspace{0.5in}
+\begin{solution}
+False, a canonical form LP must have equality constraints and non-negative variables.
+\end{solution}
+\end{parts} 
+
+ 
+ \question[5] Circle the feasible regions which are convex.
+ 
+ \begin{figure}[h!]
+     \centering
+     \includegraphics{Convex_Shapes.png}
+ \end{figure}
+ 
+\end{questions}
+\end{document}
+
