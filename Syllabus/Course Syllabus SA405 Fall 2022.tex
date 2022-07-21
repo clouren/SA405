@@ -1,0 +1,107 @@
+\documentclass[letterpaper,hidelinks,oneside,11pt]{article}%twocolumn;titlepage(separate title page)
+\usepackage{pslatex}                %Times New Roman Font; Improves on-screen readability; preferred to using times package
+\usepackage[margin=0.5in]{geometry}   %1in 'uniform' margin (with oneside)
+\usepackage{color}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{url}
+\usepackage{bm}
+\usepackage{lscape}
+\setcounter{MaxMatrixCols}{20}
+%\setlength{\headsep}{0in}           %Distance from bottom of header to the body of text on a page.
+\newcommand{\rem}[1]{}
+\renewcommand{\arraystretch}{3}
+
+\usepackage{xcolor}
+\hypersetup{
+    colorlinks,
+    linkcolor={red!50!black},
+    citecolor={blue!50!black},
+    urlcolor={blue!80!black}
+}
+
+% **********************************************************************
+% Compact itemize, enumerate and description environments %pkg enumitem
+% **********************************************************************
+\usepackage{enumitem}            % [FAILS w/BEAMER] Lets define enumerate spacing: \begin{enumerate}[topsep=0pt,itemsep=0pt,parsep=0pt,partopsep=0pt]
+\newenvironment{compitem}{\begin{itemize}[topsep=0pt,itemsep=0pt,parsep=0pt,partopsep=0pt]}{\end{itemize}}
+\newenvironment{compenum}{\begin{enumerate}[topsep=0pt,itemsep=0pt,parsep=0pt,partopsep=0pt]}{\end{enumerate}}
+\newenvironment{compdesc}{\begin{description}[topsep=0pt,itemsep=0pt,parsep=0pt,partopsep=0pt]}{\end{description}}
+
+\DeclareMathOperator{\conv}{conv}
+\DeclareMathOperator*{\proj}{proj}
+
+\newcommand{\blu}{\color{blue}}
+\newcommand{\bla}{\color{black}}
+\begin{document}
+\noindent\fbox{%
+	\parbox{\textwidth}{%
+		\begin{center}
+		\textbf{\large{Department of Mathematics}} \\
+		\textbf{\large{SA 405 - Advanced Mathematical Programming}} \\
+		\textbf{\large{Course Syllabus - Fall 2022}}
+		\end{center}
+	}%
+}
+\subsection*{Course Coordinator - Assistant Professor Chris Lourenco} 
+\textit{email}: lourenco@usna.edu \\
+\textit{Office phone}: 410-293-6720 \\
+\textit{Office}: CH 354
+
+
+\subsection*{Course Textbook}
+Deterministic Operations Research by David Rader (ISBN  978-0470484517)
+
+
+\subsection*{Course Description}
+
+This course covers a range of advanced topics in mathematical programming. Topics include integer programming modeling, branch-and-bound methods, integer programming theory and nonlinear optimization theory and algorithms. Students will also learn to use a set-based modeling language for an advanced integer programming solver. Topics will vary with instructor.
+
+\subsection*{Prerequisites}
+
+SA 305
+
+\subsection*{Course Objectives}
+
+By the end of this course, students will be able to:
+\begin{itemize}
+\item creatively and critically problem solve;
+\item successfully collaborate in groups;
+\item intuitively identify, creatively model, and solve (using software) a variety of real-world
+problems that can be formulated as integer linear programs;
+\item use Microsoft Excel and Python to develop a spreadsheet interface for a linked opti-
+mization model;
+\item understand the theoretical and computational difficulty of integer linear optimization,
+along with associated theoretical and algorithmic considerations and algorithms.
+\end{itemize}
+
+\subsection*{Tentative course schedule} 
+
+A tentative schedule of the class is as follows:
+\begin{table}[h!]
+\centering
+\small
+\begin{tabular}{l|l}
+\textbf{Week} & \textbf{Topic} \\ \hline
+1 & Linear Programming Review \\
+2 & Minimum Cost Network Flow Models \\
+3 & Shortest Path and Max Flow Models \\
+4 & Fixed Charge Models \\
+5 & Set Covering and Binary Logic Constraints \\
+6 & Review and Exam 1 \\
+7 & Combinatorial Models and Traveling Salesperson Problem \\
+8 & Vehicle Routing Models \\
+9 & Scheduling Models \\
+10 & Facility Location Models \\
+11 & Review and Exam 2 \\
+12 & IP Formulations \\
+13 & IP Formulations and Branch and Bound \\
+14 & Branch and Bound \\
+15 & Lagrangian Relaxation \\
+16 & Project and Review \\ \hline
+\end{tabular}
+\end{table}
+
+\end{document}
