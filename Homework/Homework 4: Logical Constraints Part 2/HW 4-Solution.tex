@@ -1,0 +1,369 @@
+\documentclass[11pt]{article}
+
+%% MinionPro fonts 
+%\usepackage[lf]{MinionPro}
+%\usepackage{MnSymbol}
+\usepackage{microtype}
+
+%% Margins
+\usepackage{geometry}
+\geometry{verbose,letterpaper,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+
+%% Other packages
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage[shortlabels]{enumitem}
+\usepackage{titlesec}
+\usepackage{soul}
+\usepackage{tikz}
+\usepackage{mathtools}
+\usepackage{pgfplots}
+\usepackage{tikz-3dplot}
+\usepackage{algorithmic}
+\usepackage[export]{adjustbox}
+\usepackage{tcolorbox}
+\usepackage{optprog}
+
+%% Paragraph style settings
+\setlength{\parskip}{\medskipamount}
+\setlength{\parindent}{0pt}
+
+%% Change itemize bullets
+\renewcommand{\labelitemi}{$\bullet$}
+\renewcommand{\labelitemii}{$\circ$}
+\renewcommand{\labelitemiii}{$\diamond$}
+\renewcommand{\labelitemiv}{$\cdot$}
+
+%% Colors
+\definecolor{rred}{RGB}{204,0,0}
+\definecolor{ggreen}{RGB}{0,145,0}
+\definecolor{yyellow}{RGB}{255,185,0}
+\definecolor{bblue}{rgb}{0.2,0.2,0.7}
+\definecolor{ggray}{RGB}{190,190,190}
+\definecolor{ppurple}{RGB}{160,32,240}
+\definecolor{oorange}{RGB}{255,165,0}
+
+%% Shrink section fonts
+\titleformat*{\section}{\normalsize\bf}
+\titleformat*{\subsection}{\normalsize\bf}
+\titleformat*{\subsubsection}{\normalsize\it}
+
+% %% Compress the spacing around section titles
+\titlespacing*{\section}{0pt}{1.5ex}{0.75ex}
+\titlespacing*{\subsection}{0pt}{1ex}{0.5ex}
+\titlespacing*{\subsubsection}{0pt}{1ex}{0.5ex}
+
+%% amsthm settings
+\theoremstyle{definition}
+\newtheorem{problem}{Problem}
+\newtheorem{example}{Example}
+\newtheorem*{theorem}{Theorem}
+\newtheorem*{bigthm}{Big Theorem}
+\newtheorem*{biggerthm}{Bigger Theorem}
+\newtheorem*{bigcor1}{Big Corollary 1}
+\newtheorem*{bigcor2}{Big Corollary 2}
+
+%% tikz settings
+\usetikzlibrary{calc}
+\usetikzlibrary{patterns}
+\usetikzlibrary{decorations}
+\usepgfplotslibrary{polar}
+
+%% algorithmic setup
+\algsetup{linenodelimiter=}
+\renewcommand{\algorithmiccomment}[1]{\quad// #1}
+\renewcommand{\algorithmicrequire}{\emph{Input:}}
+\renewcommand{\algorithmicensure}{\emph{Output:}}
+
+%% Answer box macros
+%% \answerbox{alignment}{width}{height}
+\newcommand{\answerbox}[3]{%
+  \fbox{%
+    \begin{minipage}[#1]{#2}
+      \hfill\vspace{#3}
+    \end{minipage}
+  }
+}
+
+%% \answerboxfull{alignment}{height}
+\newcommand{\answerboxfull}[2]{%
+  \answerbox{#1}{6.38in}{#2} 
+}
+
+%% \answerboxone{alignment}{height} -- for first-level bullet
+\newcommand{\answerboxone}[2]{%
+  \answerbox{#1}{6.0in}{#2} 
+}
+
+%% \answerboxtwo{alignment}{height} -- for second-level bullet
+\newcommand{\answerboxtwo}[2]{%
+  \answerbox{#1}{5.8in}{#2}
+}
+
+%% special boxes
+\newcommand{\wordbox}{\answerbox{c}{1.2in}{.7cm}}
+\newcommand{\catbox}{\answerbox{c}{.5in}{.7cm}}
+\newcommand{\letterbox}{\answerbox{c}{.7cm}{.7cm}}
+
+%% Miscellaneous macros
+\newcommand{\tstack}[1]{\begin{multlined}[t] #1 \end{multlined}}
+\newcommand{\cstack}[1]{\begin{multlined}[c] #1 \end{multlined}}
+\newcommand{\ccite}[1]{\only<presentation>{{\scriptsize\color{gray} #1}}\only<article>{{\small [#1]}}}
+\newcommand{\grad}{\nabla}
+\newcommand{\ra}{\ensuremath{\rightarrow}~}
+\newcommand{\maximize}{\text{maximize}}
+\newcommand{\minimize}{\text{minimize}}
+\newcommand{\subjectto}{\text{subject to}}
+\newcommand{\trans}{\mathsf{T}}
+\newcommand{\bb}{\mathbf{b}}
+\newcommand{\bx}{\mathbf{x}}
+\newcommand{\bc}{\mathbf{c}}
+\newcommand{\bd}{\mathbf{d}}
+\newcommand{\blu}{\color{blue}}
+
+%% LP format
+%    \begin{align*}
+%      \maximize \quad & \mathbf{c}^{\trans} \mathbf{x}\\
+%      \subjectto \quad & A \mathbf{x} = \mathbf{b}\\
+%                       & \mathbf{x} \ge \mathbf{0}
+%    \end{align*}
+
+
+%% Redefine maketitle
+\makeatletter
+\renewcommand{\maketitle}{
+  \noindent SA405 -- AMP \hfill Rader \#2.42 \\
+
+  \begin{center}\Large{\textbf{\@title}}\end{center}
+}
+\makeatother
+
+%% ----- Begin document ----- %%
+\begin{document}
+  
+\title{HW4: Logical Constraints Part 2}
+
+
+\maketitle
+
+% Either or
+
+\textbf{Problem 1:} Mazda is considering expanding their production capabilities in a factory. The factory currently makes three types of cars: Mazda3 (the best one obviously), Mazda6, and Mazda CX5. Each car has a requirement of steel, labor, and expected profit given in the table below:
+
+\begin{center}
+\begin{tabular}{c|ccc} \hline
+Resource & Mazda3   & Mazda6   & Mazda CX5 \\ \hline
+Steel    & 1.5 tons & 2 tons   & 3 tons  \\
+Labor    & 30 hours & 28 hours & 40 hours \\
+Profit   & \$2000   & \$2500   & \$3500 \\ \hline
+\end{tabular}
+\end{center}
+
+Mazda currently has 6000 tons of steel and 60,000 hours of labor at the plant. Lastly, Mazda does not consider it economically viable to produce Mazda CX5 unless at least 700 of them are produced.
+
+\begin{enumerate}
+\item[a.] Formulate an integer program that would allow Mazda to maximize their profit.
+
+{\blu
+\textbf{\underline{Decision Variables}}
+
+Let $x_1$ be the number of Mazda3 made \\
+Let $x_2$ be the number of Mazda6 made \\
+Let $x_3$ be the number of Mazda CX5 made \\
+Let $y = 1$ if CX5 are made and 0 otherwise
+
+\textbf{\underline{Objective Function}}
+
+\[
+\text{max } 2000 x_1 + 2500 x_2 + 3500 x_3
+\]
+
+\textbf{\underline{Constraints}}
+
+\begin{optprog*}
+st & 1.5 x_1 + 2 x_2 + 3 x_3 & \leq & 6000  & \text{(Steel Available)} \\
+   & 30 x_1 + 28 x_2 + 40 x_3 & \leq & 60000 & \text{(Labor Available)} \\
+   & x_3 & \leq & 10000 y & \text{(upper bound on CX5)} \\
+   & x_3 & \geq & 700 y & \text{(Lower bound on CX5 if they are made)} \\
+   & x_1, x_2, x_3 & \geq & 0 \\
+   & y & \in & \{0,1\}
+\end{optprog*}
+
+
+}
+
+
+\item[b.] Mazda has the option to hire part time help. In total, they could obtain 5000 new hours of labor for the price of \$50,000. Modify your model from part (a) to determine if Mazda should make this change.
+
+{\blu
+To incorporate this change, we define a new variable:
+
+Let $z = 1$ if they hire part time labor and 0 otherwise.
+
+Then we modify the objective function to be:
+\[
+\text{max } 2000 x_1 + 2500 x_2 + 3500 x_3 - 50000 z
+\]
+
+The constraints can be modified in an ``either/or'' style or simply by changing the right hand side of the labor constraint. Specifically, it can be changed to be:
+\[
+30 x_1 + 28 x_2 + 40 x_3 \leq 60000 + 5000 z
+\]
+
+}
+
+\item[c.] Mazda is considering using lightweight materials to reduce the amount of steel used. To reconfigure their machines, it would cost \$25,000; but would reduce the amount of steel needed for a Mazda3, Mazda6, and Mazda CX5 to be 1.25 tons, 1.8 tons, and 2.85 tons, respectively. Again, modify your model from part (a) to determine if they should make this change.
+
+{ \blu
+
+Similar idea as part b. We first define a new variable:
+
+Let $z = 1$ if the machine is reconfigured and 0 otherwise
+
+The objective function then becomes:
+\[
+\text{max } 2000 x_1 + 2500 x_2 + 3500 x_3 - 25000 z
+\]
+
+The current material constraint needs to be converted into the following 2 constraints
+\begin{optprog*}
+& 1.5 x_1 + 2 x_2 + 3 x_3 & \leq & 6000 + M (z)
+& 1.25 x_1 + 1.8 x_2 + 2.85 x_3 & \leq & 6000 + M (1-z)
+\end{optprog*}
+
+Thus, if $z = 1$, the machine is bought, the top constraint is relaxed and the bottom constraint is tight. If $z = 0$, the machine is not bought, the top constraint is tight and the bottom constraint is relaxed.
+}
+
+\end{enumerate}
+
+\newpage
+
+% If then
+
+\textbf{Problem 2:} Professor Lourenco is planning a trip to Europe. There are eight locations he's considering to visit. Each location has a cost to visit and level of happiness (from 1 to 10) it would bring him given in the table below.
+
+\begin{center}
+\begin{tabular}{c|cc} \hline
+Location   & Cost   & Happiness \\ \hline
+Barcelona  & \$1200 & 8    \\
+Lisbon     & \$1000 & 8.5  \\
+The Azores & \$800  & 9   \\
+London     & \$1300 & 7   \\
+Rome       & \$1500 & 10   \\
+Paris      & \$1000 & 6    \\
+Florence   & \$950  & 7.5  \\
+Oslo       & \$1100 & 8    \\ \hline
+\end{tabular}
+\end{center}
+
+\begin{enumerate}
+\item[a.] If Professor Lourenco has a budge of \$5500, formulate an integer program to help him decide where to go in order to maximize his happiness.
+
+{\blu
+\textbf{\underline{Decision Variables}}
+
+Let $y_1 = 1$ if he visits Barcelona and 0 otherwise \\
+Let $y_2 = 1$ if he visits Lisbon and 0 otherwise \\
+Let $y_8 = 1$ if he visits Oslo and 0 otherwise
+
+\textbf{\underline{Objective function}}
+
+\[
+\text{max } 8 y_1  + 8.5 y_2 + 9 y_3 + 7 y_4 + 10 y_5 + 6 y_6 + 7.5 y_7 + 8 y_8
+\]
+
+\textbf{\underline{Constraints}}
+
+\begin{optprog*}
+& 1200 y_1 + 1000 y_2 + 800 y_3 + \ldots + 1100 y_8 & \leq & 5500 & \text{(budget)} \\
+& y_1, y_2, \ldots , y_8 & \in & \{0,1\} & \text{(binary)}
+\end{optprog*}
+
+
+}
+
+\item[b.] Professor Lourenco has decided to add some extra stipulations to his trip. Specifically:
+	\begin{itemize}
+	\item He doesn't want to see only huge cities, so he can only go to at most three of Barcelona, Lisbon, London, Rome, and Paris.
+	\item If he visits both the Azores and Lisbon, he doesn't want to visit Barcelona.
+	\item If he does not visit Rome, he wants to visit Florence.
+	\item If he visits the Azores he wants to also visit Rome and Florence.
+	\end{itemize}
+Using the variables you defined in part a, write constraints to enforce each of these requirements.
+\end{enumerate}
+
+{\blu
+\begin{itemize}
+	\item He doesn't want to see only huge cities, so he can only go to at most three of Barcelona, Lisbon, London, Rome, and Paris.
+
+This means that only three of the variables $y_1, y_2, y_4, y_5, y_6$ can be 1 so it's the constraint:
+\[
+y_1+y_2+y_4+y_5+y_6 \leq 3
+\]
+		
+	\item If he visits both the Azores and Lisbon, he doesn't want to visit Barcelona.
+This means that if both $y_2 = 1$ and $y_3  = 1$ then $y_1 = 0$. Going through the steps we did in class, I get the following constraint:
+\[
+y_2 + y_3 \leq (1-y_1) + 1
+\]
+	
+	
+	\item If he does not visit Rome, he wants to visit Florence.
+
+This means that if $y_5 = 0$ then $y_7 = 1$. Going through the steps from class, we get:
+\[
+(1-y_5) \leq y_7
+\]
+	\item If he visits the Azores he wants to also visit Rome and Florence.
+
+This means that if $y_3 = 1$ then $y_5=1$ and $y_7 =1$. I can split this into two constraints and get:
+\[
+y_3 \leq y_5
+\]
+\[
+y_3 \leq y_7
+\]
+
+	\end{itemize}
+
+}
+
+\newpage
+
+\textbf{Problem 3: OPTIONAL/BONUS} You don't have to turn this one in, but if you get it correct you'll get some bonus points. Consider the following integer program:
+
+\begin{optprog*}
+max & \objective{x_1+x_2} \\
+st & x_1 + x_2 & \leq & 8 \\
+   & -x_1 + x_2 & \leq & 2 \\
+   & x_1 & \in & \{0,1,4,6\} \\
+   & x_2 & \geq & 0
+\end{optprog*}
+
+Reformulate this integer program to \textbf{only} use $\geq 0$ and binary variables.
+
+{\blu
+The trick of this problem is to realize that we can replace $x_1$ with the sum of 4 binary variables. Specifically, I can define the variables $y_1, y_2, y_3,$ and $y_4$ as:
+
+Let $y_1 = 1$ if $x_1 = 0$ and $0$ otherwise \\
+Let $y_2 = 1$ if $x_1 = 1$ and $0$ otherwise \\
+Let $y_3 = 1$ if $x_1 = 4$ and $0$ otherwise \\
+Let $y_4 = 1$ if $x_1 = 6$ and $0$ otherwise 
+
+Then, my IP becomes:
+
+\begin{optprog*}
+max & \objective{x_1+x_2} \\
+st & x_1 + x_2 & \leq & 8 \\
+   & -x_1 + x_2 & \leq & 2 \\
+   & x_1 & = & 0 y_1 + 1 y_2  + 4 y_3 + 6 y_4 \\
+   & y_1 + y_2 + y_3 + y_4 & = & 1 \\
+   & x_1, x_2 & \geq & 0 \\
+   & y_1, y_2, y_3, y_4 & \in & \{0,1\}
+\end{optprog*}
+
+
+}
+
+
+\end{document}
