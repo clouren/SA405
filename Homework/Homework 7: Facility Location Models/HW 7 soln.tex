@@ -1,0 +1,263 @@
+\documentclass[11pt]{article}
+
+%% MinionPro fonts 
+%\usepackage[lf]{MinionPro}
+%\usepackage{MnSymbol}
+\usepackage{microtype}
+
+%% Margins
+\usepackage{geometry}
+\geometry{verbose,letterpaper,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+
+%% Other packages
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage[shortlabels]{enumitem}
+\usepackage{titlesec}
+\usepackage{soul}
+\usepackage{tikz}
+\usepackage{mathtools}
+\usepackage{pgfplots}
+\usepackage{tikz-3dplot}
+\usepackage{algorithmic}
+\usepackage[export]{adjustbox}
+\usepackage{tcolorbox}
+\usepackage{optprog}
+
+%% Paragraph style settings
+\setlength{\parskip}{\medskipamount}
+\setlength{\parindent}{0pt}
+
+%% Change itemize bullets
+\renewcommand{\labelitemi}{$\bullet$}
+\renewcommand{\labelitemii}{$\circ$}
+\renewcommand{\labelitemiii}{$\diamond$}
+\renewcommand{\labelitemiv}{$\cdot$}
+
+%% Colors
+\definecolor{rred}{RGB}{204,0,0}
+\definecolor{ggreen}{RGB}{0,145,0}
+\definecolor{yyellow}{RGB}{255,185,0}
+\definecolor{bblue}{rgb}{0.2,0.2,0.7}
+\definecolor{ggray}{RGB}{190,190,190}
+\definecolor{ppurple}{RGB}{160,32,240}
+\definecolor{oorange}{RGB}{255,165,0}
+
+%% Shrink section fonts
+\titleformat*{\section}{\normalsize\bf}
+\titleformat*{\subsection}{\normalsize\bf}
+\titleformat*{\subsubsection}{\normalsize\it}
+
+% %% Compress the spacing around section titles
+\titlespacing*{\section}{0pt}{1.5ex}{0.75ex}
+\titlespacing*{\subsection}{0pt}{1ex}{0.5ex}
+\titlespacing*{\subsubsection}{0pt}{1ex}{0.5ex}
+
+%% amsthm settings
+\theoremstyle{definition}
+\newtheorem{problem}{Problem}
+\newtheorem{example}{Example}
+\newtheorem*{theorem}{Theorem}
+\newtheorem*{bigthm}{Big Theorem}
+\newtheorem*{biggerthm}{Bigger Theorem}
+\newtheorem*{bigcor1}{Big Corollary 1}
+\newtheorem*{bigcor2}{Big Corollary 2}
+
+%% tikz settings
+\usetikzlibrary{calc}
+\usetikzlibrary{patterns}
+\usetikzlibrary{decorations}
+\usepgfplotslibrary{polar}
+
+%% algorithmic setup
+\algsetup{linenodelimiter=}
+\renewcommand{\algorithmiccomment}[1]{\quad// #1}
+\renewcommand{\algorithmicrequire}{\emph{Input:}}
+\renewcommand{\algorithmicensure}{\emph{Output:}}
+
+%% Answer box macros
+%% \answerbox{alignment}{width}{height}
+\newcommand{\answerbox}[3]{%
+  \fbox{%
+    \begin{minipage}[#1]{#2}
+      \hfill\vspace{#3}
+    \end{minipage}
+  }
+}
+
+%% \answerboxfull{alignment}{height}
+\newcommand{\answerboxfull}[2]{%
+  \answerbox{#1}{6.38in}{#2} 
+}
+
+%% \answerboxone{alignment}{height} -- for first-level bullet
+\newcommand{\answerboxone}[2]{%
+  \answerbox{#1}{6.0in}{#2} 
+}
+
+%% \answerboxtwo{alignment}{height} -- for second-level bullet
+\newcommand{\answerboxtwo}[2]{%
+  \answerbox{#1}{5.8in}{#2}
+}
+
+%% special boxes
+\newcommand{\wordbox}{\answerbox{c}{1.2in}{.7cm}}
+\newcommand{\catbox}{\answerbox{c}{.5in}{.7cm}}
+\newcommand{\letterbox}{\answerbox{c}{.7cm}{.7cm}}
+
+%% Miscellaneous macros
+\newcommand{\tstack}[1]{\begin{multlined}[t] #1 \end{multlined}}
+\newcommand{\cstack}[1]{\begin{multlined}[c] #1 \end{multlined}}
+\newcommand{\ccite}[1]{\only<presentation>{{\scriptsize\color{gray} #1}}\only<article>{{\small [#1]}}}
+\newcommand{\grad}{\nabla}
+\newcommand{\ra}{\ensuremath{\rightarrow}~}
+\newcommand{\maximize}{\text{maximize}}
+\newcommand{\minimize}{\text{minimize}}
+\newcommand{\subjectto}{\text{subject to}}
+\newcommand{\trans}{\mathsf{T}}
+\newcommand{\bb}{\mathbf{b}}
+\newcommand{\bx}{\mathbf{x}}
+\newcommand{\bc}{\mathbf{c}}
+\newcommand{\bd}{\mathbf{d}}
+\newcommand{\blu}{\color{blue}}
+
+%% LP format
+%    \begin{align*}
+%      \maximize \quad & \mathbf{c}^{\trans} \mathbf{x}\\
+%      \subjectto \quad & A \mathbf{x} = \mathbf{b}\\
+%                       & \mathbf{x} \ge \mathbf{0}
+%    \end{align*}
+
+
+%% Redefine maketitle
+\makeatletter
+\renewcommand{\maketitle}{
+  \noindent SA405 -- AMP \hfill Rader \#2.42 \\
+
+  \begin{center}\Large{\textbf{\@title}}\end{center}
+}
+\makeatother
+
+%% ----- Begin document ----- %%
+\begin{document}
+  
+\title{HW7: Facility Location Models}
+
+
+\maketitle
+
+% 
+A county is deciding where to place police precincts in order to respond to potential emergencies. There are 10 locations which need police protection and 5 of them are candidates to place a police station. The county has a budget of \$2,500,000 to place the police stations. You are given the following information:
+\begin{itemize}
+\item $C$ is the set of locations that need police protection $C = \{1,2,3,4,5,6,7,8,9,10\}$
+\item $S$ is the set of potential locations to place a police station $S = \{1,4,6,8,9\}$. 
+\item Each zone in $C$ has a demand of 150. Additionally, the demand of each zone must be fully served by exactly 1 police station.
+\item Each potential location has a fixed cost to open and capacity. The table below gives these values:
+
+\begin{center}
+\begin{tabular}{|l|r|r|} \hline
+Location & Fixed Cost & Capacity \\ \hline
+1 & \$800,000 & 500 \\
+4 & \$750,000 & 450 \\
+6 & \$1,200,000 & 700 \\
+8 & \$1,000,000 & 600 \\
+9 & \$400,000 & 325  \\ \hline
+\end{tabular}
+\end{center}
+
+\item Lastly, the distance between each potential police location and each zone in the city is given in the table below:
+
+\begin{center}
+\begin{tabular}{|r|r|r|r|r|r|r|r|r|r|r|} \hline
+Station & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 \\ \hline
+1       & 0 & 7 & 6 & 2 & 2 & 5 & 3 & 4 & 7 & 9 \\
+4       & 2 & 3 & 4 & 0 & 6 & 5 & 7 & 9 & 1 & 3 \\
+6       & 5 & 4 & 3 & 5 & 2 & 0 & 1 & 8 & 6 & 5 \\
+8       & 4 & 3 & 5 & 9 & 5 & 8 & 3 & 7 & 9 & 9 \\
+9       & 7 & 4 & 6 & 1 & 9 & 6 & 4 & 9 & 0 & 1 \\ \hline
+\end{tabular}
+\end{center}
+\end{itemize}
+
+\textbf{Part 1:} Formulate a concrete model whose solution would minimize the total distance traveled by the police officers while remaining within budget.
+
+{\blu
+We need two types of variables in this problem
+
+\textbf{\underline{Decision Variables}}
+
+Let $x_1 = 1$ if a station is placed at location 1 and 0 otherwise \\
+$\vdots$ \\
+Let $x_9 = 1$ if a station is placed at location 9 and 0 otherwise \\
+Let $y_{1,1} = 1$ if location 1 is assigned to station 1 and 0 otherwise \\
+$\vdots$ \\
+Let $y_{10,9} = 1$ if location 10 is assigned to station 9 and 0 otherwise
+
+\textbf{\underline{Objective Function}}
+\[
+\text{min distance: } 0 y_{1,1} + 7 y_{2,1} + \cdots + 1 y_{10,9}
+\]
+
+\textbf{\underline{Constraints}}
+
+There are 4 types of constraints:
+\begin{itemize}
+\item Can't exceed budget of \$2,500,000
+\item Every location is assigned to exactly 1 station
+\item No station exceeds its maximum capacity
+\item All variables are binary
+\end{itemize}
+
+\begin{optprog*}
+& 0.8 x_1 + 0.75 x_4 + 1.2 x_6 + 1 x_8 + 0.4 x_9 & \leq & 2.5 & \text{(budget)} \\
+& y_{1,1} + y_{1,4} + y_{1,6} + y_{1,8} + y_{1,9} & = & 1 & \text{(location 1 has 1 station)} \\
+& \vdots \\
+& y_{10,1} + y_{10,4} + y_{10,6} + y_{10,8} + y_{10,9} & = & 1 & \text{(location 10 has 1 station)} \\
+& 150 y_{1,1} + 150 y_{2,1} + \ldots + 150 y_{10,1} & \leq & 500 x_1 & \text{(capacity of 1)} \\
+& \vdots \\
+& 150 y_{1,9} + 150 y_{2,9} + \ldots + 150 y_{10,9} & \leq & 325 x_9 & \text{(capacity of 9)} \\
+& y_{1,1} , \ldots, y_{10,9} & \in & \{0,1\} & \text{(binary)} \\
+& x_1, \ldots, x_9 & \in & \{0,1\} & \text{(binary)} \\
+\end{optprog*}
+
+}
+
+\newpage
+\textbf{Part 2:} Parameterize your model from part 1.
+
+{\blu
+
+\textbf{\underline{Sets}}
+
+Let $C$ be the set of locations \\
+Let $S$ be the set of potential stations
+
+\textbf{\underline{Variables}}
+
+Let $y_{c,s} = 1$ if location $c$ is assigned to station $s$ for all $c \in C$ and $s \in S$\\
+Let $x_s = 1$ if station $s$ is opened and 0 otherwise for all $s \in S$
+
+\textbf{\underline{Parameters}}
+
+Let $d_{c,s}$ be the distance between customer $c$ and station $s$ for all $c \in C$ and $s \in S$\\
+Let $u_s$ be the capacity of station $s$ for all $s \in S$\\
+Let $f_s$ be the fixed cost of station $s$ for all $s \in S$ \\
+Let $h_c$ be the demand of customer $c$ for all $c \in C$
+
+\textbf{\underline{Objective Function}} 
+\[
+\text{min: } \sum_{c \in C} \sum_{s \in S} d_{c,s} y_{c,s}
+\]
+
+\textbf{\underline{Constraints}}
+
+\begin{optprog*}
+& \sum_{s \in S} f_s x_s & \leq & 2.5 & & \text{(budget)} \\
+& \sum_{s \in S} y_{c,s} & = & 1 & \text{for $c \in C$} & \text{(each location assigned to 1 station)} \\
+& \sum_{c \in C} h_c y_{c,s} & \leq & u_s x_s & \text{for $s \in S$} & \text{(Capacity)} \\
+& y_{c,s} & \in & \{0,1\} & \text{for $c \in C$ and $s \in S$} & \text{(binary)} \\
+& x_s & \in & \{0,1\} & \text{for $s \in S$} & \text{(binary)}
+\end{optprog*}
+}
+
+\end{document}

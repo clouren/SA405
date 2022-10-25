@@ -1,0 +1,535 @@
+\documentclass[11pt]{article}
+
+%% MinionPro fonts 
+%\usepackage[lf]{MinionPro}
+%\usepackage{MnSymbol}
+\usepackage{microtype}
+
+\usepackage{amssymb, amsmath, amsthm}
+%% Margins
+\usepackage{geometry}
+\geometry{verbose,letterpaper,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+
+%% Other packages
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage[shortlabels]{enumitem}
+\usepackage{titlesec}
+\usepackage{soul}
+\usepackage{tikz}
+\usepackage{mathtools}
+\usepackage{pgfplots}
+\usepackage{tikz-3dplot}
+\usepackage{algorithmic}
+\usepackage[export]{adjustbox}
+\usepackage{tcolorbox}
+
+%% Paragraph style settings
+\setlength{\parskip}{\medskipamount}
+\setlength{\parindent}{0pt}
+
+%% Change itemize bullets
+\renewcommand{\labelitemi}{$\bullet$}
+\renewcommand{\labelitemii}{$\circ$}
+\renewcommand{\labelitemiii}{$\diamond$}
+\renewcommand{\labelitemiv}{$\cdot$}
+
+%% Colors
+\definecolor{rred}{RGB}{204,0,0}
+\definecolor{ggreen}{RGB}{0,145,0}
+\definecolor{yyellow}{RGB}{255,185,0}
+\definecolor{bblue}{rgb}{0.2,0.2,0.7}
+\definecolor{ggray}{RGB}{190,190,190}
+\definecolor{ppurple}{RGB}{160,32,240}
+\definecolor{oorange}{RGB}{255,165,0}
+
+%% Shrink section fonts
+\titleformat*{\section}{\normalsize\bf}
+\titleformat*{\subsection}{\normalsize\bf}
+\titleformat*{\subsubsection}{\normalsize\it}
+
+% %% Compress the spacing around section titles
+\titlespacing*{\section}{0pt}{1.5ex}{0.75ex}
+\titlespacing*{\subsection}{0pt}{1ex}{0.5ex}
+\titlespacing*{\subsubsection}{0pt}{1ex}{0.5ex}
+
+%% amsthm settings
+\theoremstyle{definition}
+\newtheorem{problem}{Problem}
+\newtheorem{example}{Example}
+\newtheorem*{theorem}{Theorem}
+\newtheorem*{bigthm}{Big Theorem}
+\newtheorem*{biggerthm}{Bigger Theorem}
+\newtheorem*{bigcor1}{Big Corollary 1}
+\newtheorem*{bigcor2}{Big Corollary 2}
+
+%% tikz settings
+\usetikzlibrary{calc}
+\usetikzlibrary{patterns}
+\usetikzlibrary{decorations}
+\usepgfplotslibrary{polar}
+
+%% algorithmic setup
+\algsetup{linenodelimiter=}
+\renewcommand{\algorithmiccomment}[1]{\quad// #1}
+\renewcommand{\algorithmicrequire}{\emph{Input:}}
+\renewcommand{\algorithmicensure}{\emph{Output:}}
+
+%% Answer box macros
+%% \answerbox{alignment}{width}{height}
+\newcommand{\answerbox}[3]{%
+  \fbox{%
+    \begin{minipage}[#1]{#2}
+      \hfill\vspace{#3}
+    \end{minipage}
+  }
+}
+
+%% \answerboxfull{alignment}{height}
+\newcommand{\answerboxfull}[2]{%
+  \answerbox{#1}{6.38in}{#2} 
+}
+
+%% \answerboxone{alignment}{height} -- for first-level bullet
+\newcommand{\answerboxone}[2]{%
+  \answerbox{#1}{6.0in}{#2} 
+}
+
+%% \answerboxtwo{alignment}{height} -- for second-level bullet
+\newcommand{\answerboxtwo}[2]{%
+  \answerbox{#1}{5.8in}{#2}
+}
+
+%% special boxes
+\newcommand{\wordbox}{\answerbox{c}{1.2in}{.5cm}}
+\newcommand{\catbox}{\answerbox{c}{.5in}{.7cm}}
+\newcommand{\letterbox}{\answerbox{c}{.7cm}{.5cm}}
+
+%% Miscellaneous macros
+\newcommand{\tstack}[1]{\begin{multlined}[t] #1 \end{multlined}}
+\newcommand{\cstack}[1]{\begin{multlined}[c] #1 \end{multlined}}
+\newcommand{\ccite}[1]{\only<presentation>{{\scriptsize\color{gray} #1}}\only<article>{{\small [#1]}}}
+\newcommand{\grad}{\nabla}
+\newcommand{\ra}{\ensuremath{\rightarrow}~}
+\newcommand{\maximize}{\text{maximize}}
+\newcommand{\minimize}{\text{minimize}}
+\newcommand{\subjectto}{\text{subject to}}
+\newcommand{\trans}{\mathsf{T}}
+\newcommand{\bb}{\mathbf{b}}
+\newcommand{\bx}{\mathbf{x}}
+\newcommand{\bc}{\mathbf{c}}
+\newcommand{\bd}{\mathbf{d}}
+
+%% LP format
+%    \begin{align*}
+%      \maximize \quad & \mathbf{c}^{\trans} \mathbf{x}\\
+%      \subjectto \quad & A \mathbf{x} = \mathbf{b}\\
+%                       & \mathbf{x} \ge \mathbf{0}
+%    \end{align*}
+
+
+%% Redefine maketitle
+\makeatletter
+\renewcommand{\maketitle}{
+  \noindent SA405 -- AMP \hfill Rader \S 3.1 \\
+
+  \begin{center}\Large{\textbf{\@title}}\end{center}
+}
+\makeatother
+
+%% ----- Begin document ----- %%
+\begin{document}
+  
+\title{Lesson 11: Scheduling Problems}
+
+\maketitle
+
+%%%
+\section{Overview}
+Scheduling models are a type of optimization problem that determine how jobs/people/etc should be assigned given scheduling requirements while optimizing a given objective.
+
+Just like in other models that we've seen, in many cases we also need to include \textbf{logical constraints} to account for complicating factors in the models.
+
+
+\section{Problem Description}
+
+The USS George H.W. Bush (CVN-77) is the tenth and final Nimitz-class supercarrier of the United States Navy. You've been tasked with scheduling the following test flights on the USS Bush:
+
+\begin{center}    
+\begin{tabular}{c|c|c}
+     Flights & Total Flight Time (hours) & Flight Importance \\
+     1 &  2 & 4 \\
+     2 &  5 & 3 \\
+     3 &  1 & 2 \\
+     4 &  4 & 5 \\
+     5 &  3 & 1 \\
+     6 &  7 & 1.5 \\
+\end{tabular}
+\end{center}
+
+
+For this problem, you can to assume that each flight must take off and land before the next flight can leave. In other words, the test flights cannot commence simultaneously. Your ship captain has tasked you with scheduling the in order in which these test flights should commence order to minimizing the total weighted (by importance) cumulative flight completion time. 
+
+\section{Concrete Model}
+
+To model this problem, it is convenient to define a set $T$ which is the time horizon. To solve this problem, we need to plan for \letterbox hours. Our variables can then be like the typical assignment variable. Specifically, we'll define:
+
+\[
+x_{f,t} = 
+\begin{cases}
+1 & \text{if \hfill} \\
+0 & \text{otherwise}
+\end{cases}
+\]
+\vfill
+\newpage
+\textbf{Objective Function:} We want to minimize the weighted flight completion time. Suppose $x_{2,1} = 1$. What is the completion time of flight 2? 
+
+\vspace{0.25in}
+
+Likewise, suppose $x_{4,6} = 1$. What is the completion time of flight 4? 
+
+\vspace{0.25in}
+
+So what is the completion time of flight 4 if it can start at any time $t$?
+
+\vfill
+
+If we weight this by importance, we obtain the following objective function:
+
+\vfill
+
+\textbf{Constraints}
+
+\begin{itemize}
+    \item Each flight must be completed. 
+        \begin{itemize}
+            \item Write a constraint that ensures flight 1 is completed in some time slot. \vfill
+            \item Likewise, write a constraint which ensures that flight 6 is scheduled in some time slot. \vfill
+        \end{itemize}
+        \newpage
+    \item No two flights can occupy the carrier at the same time.
+        \begin{itemize}
+            \item Write a constraint which ensures that no two flights can be scheduled at time 1. \vfill
+            \item Using the same style, write a constraint that ensures no two flights can be scheduled at time 2. \vfill
+            \item Why does the constraint above not work for time 2? \vspace{0.5in}
+            \item Correct the constraint for time 2. We would need a similar constraint like this for each other time slot. \vfill
+        \end{itemize}
+    \item Which constraint is remaining? \vspace{0.5in}
+    
+\end{itemize}
+
+\newpage
+
+\section{Parameterized Model}
+
+Before we parameterize the model, let's clearly define the sets, parameters, and variables and explain what they do.
+
+\textbf{Sets}
+
+\vfill
+\textbf{Parameters}
+
+% \begin{itemize}
+%     \item Flight time of flight $f \in F$ is given by a positive integer $p_f$.
+%     \item Importance $w_f$ of each job $f \in F$.
+% \end{itemize}  
+
+\vspace{2in}
+
+\textbf{Variables}
+\vfill
+% \begin{itemize}
+%     \item Variables $x_{jt} \in \{0,1\}$ equal to 1 if job $j \in J$ begins processing in slot $t \in \{0,\ldots,T-1\}$, and 0 otherwise.
+%     \begin{itemize}
+%         \item If $x_{jt} = 1$ then slots $t, \ldots, t + p_j - 1$ are all occupied: The machine is occupied by job $j$ from the beginning of slot $t$ through the end of slot $t + p_j - 1$, i.e., from time $t$ through time $t + p_j$. In fact, this necessarily means that $x_{jt}$ must equal zero for $t \ge T - p_j + 1$, or else job $j$ will not finish before time $T$. Thus, variables $x_{jt}$ are defined just over $j \in J$ and $t \in \{0,\ldots,T - p_j\}$.
+%     \end{itemize}
+
+\textbf{Objective Function}
+\begin{itemize}
+    \item What is the completion time of each flight?
+    
+% The completion time of flight $f$ is given by $\sum_{t = 0}^{T-p_f} (t + p_f)x_{ft}$. 
+    \vfill
+    \item What is the objective function?
+    
+% Minimizing weighted completion time is simply:
+% \begin{equation} \label{e:basics3obj}
+% \textrm{min } \sum_{f \in F} \sum_{t = 0}^{T-p_f} \frac{1}{w_f}(t + p_f)x_{ft}.
+% \end{equation}
+    \vfill
+\end{itemize}
+    
+% \end{itemize}
+\newpage
+
+\textbf{Constraints}
+\begin{enumerate}[a.]
+    \item To ensure that every flight must be scheduled on the Bush, write a constraint that every flight must be scheduled to begin in some time slot:
+
+    
+% \begin{equation} \label{e:basics1}
+% \sum_{t = 0}^{T - p_f} x_{ft} = 1 \qquad \forall f \in F.
+% \end{equation}
+
+    \vfill
+    \item Write a constraint to ensure that no two flights simultaneously occupy the carrier in any time slot. There are several ways to do so, but we can define a set $F_k$, for each $k \in \boldsymbol{T}$, that represents all combinations of flights $f$ and time slots $t$ that would occupy the carrier at time $k$ if flight $f$ is scheduled at time $t$. Formally:
+\begin{equation*} \label{e:basics2}
+F_k = \left\{(f,t): f \in F \textrm{ and }  t \in \{\max\{0,k - p_f + 1\},\ldots,\min\{k,T-p_f\}\}\right\} \qquad \forall k \in \boldsymbol{T}.
+\end{equation*}
+
+What are the elements of $F_k$ for $k = 3$? \vfill
+
+Using the set $F_k$ above, write a constraint to ensure that every time slot must be assigned to one flight:
+
+% \begin{equation} \label{e:basics3}
+% \sum_{(f,t) \in F_k} x_{ft} = 1 \qquad \forall k \in \boldsymbol{T}.
+% \end{equation}
+\vfill
+\item Write the final binary constraints.
+\vfill
+\end{enumerate}
+
+
+% \end{itemize}
+
+% \vfill
+
+
+
+
+
+
+
+% Put everything together below in the parameterized form:
+% \begin{center}
+% \begin{tabular}{|l|}
+% \hline
+% Optimize \eqref{e:basics3obj}, s.t.~constraints \eqref{e:basics1} and \eqref{e:basics3}, with $x$ binary. \\
+% \hline
+% \end{tabular}
+% \end{center}
+
+\newpage
+\section{Multiple Carriers}
+
+Now, it turns out that we can use any of the 11 carriers in the fleet to complete our flights. We are now going to convert the parameterized version of this model for the single carrier case to a parameterized version of the model with multiple carriers.
+
+\textbf{New Parameters and Sets:}
+\begin{itemize}
+    \item Suppose now that there exists a set of $m$ carriers. 
+\end{itemize}
+
+\textbf{New Variables}
+\begin{itemize}
+    \item Variables $x_{ftc} \in \{0,1\}$ equal 1 if flight $f \in F$ is scheduled at time $t \in T$ on carrier $c \in \{1,\ldots,m\}$.
+\end{itemize}  
+
+\textbf{Notes:}
+
+In this model, we want to allow idleness (especially at the end of the time horizon) on the carriers. This is necessary because when multiple carriers are used, we typically do not use each carrier over the entire time horizon, nor do we know how long each carrier will be utilized before solving the scheduling problem.
+
+How would you revise your constraints from the single carrier example?
+
+\vfill
+
+% We then revise \eqref{e:basics1} as:
+% \begin{equation} \label{e:basics1mm}
+% \sum_{t = 0}^{T - p_j} \sum_{c = 1}^m x_{jtc} = 1 \qquad \forall j \in J
+% \end{equation}
+% to enforce that each job $j$ should be scheduled at some time, on some machine. To avoid processing multiple jobs on the same machine simultaneously, we revise \eqref{e:basics3} as
+% \begin{equation} \label{e:basics3mm}
+% \sum_{(j,t) \in J_k} x_{jtc} \le 1 \qquad \forall k \in \boldsymbol{T}, \ c = 1,\ldots,m.
+% \end{equation}
+
+
+
+The new objective weighted completion time objective becomes:
+% \begin{equation} \label{e:basics3objmm}
+% \textrm{Min } \sum_{j \in J} \sum_{t = 0}^{T-p_j} \sum_{c = 1}^m w_j(t + p_j)x_{jtc}.
+% \end{equation}
+\vskip 4cm
+\newpage
+
+\section{Alternative Objectives:}
+
+\textbf{Minimize weighted tardiness}
+
+For \emph{weighted tardiness}, the completion time of flight $f$ is $(t + p_f)$ if $x_{ftc} = 1$ for some carrier $c$. In that case, the tardiness of flight $f$ would be given by $\max\{0,t + p_f - d_f\}$. Before solving the model, we can simply compute tardiness parameters $\tau_{ft} = \max\{0,t + p_f - d_f\}$ for each $f \in F$ and $t \in \{0,\ldots,T-p_f\}$. The objective would then be:
+%\begin{equation} \label{e:basics3objmm_tardiness}
+%\textrm{Min } \sum_{f \in F} \sum_{t = 0}^{T-p_f} \sum_{c = 1}^m w_f\tau_{jt}x_{ftc}.
+%\end{equation} 
+\vfill
+
+\textbf{Minimize the number of late flights}
+
+A similar approach also handles the case in which we \emph{minimize the number of late flights}. Define binary parameters $\ell_{ft} = 1$ if $(t + p_f) > d_f$ (and thus scheduling flight $f$ at time $t$ would cause it to be late), and $\ell_{ft} = 0$ otherwise, for all $f \in F$ and $t \in \{0,\ldots,T-p_f\}$. To minimize the number of late flights, we would use the objective function:
+%\begin{equation} \label{e:basics3objmm_latejobs}
+%\textrm{Min } \sum_{f \in F} \sum_{t = 0}^{T-p_f} \sum_{c = 1}^m \ell_{ft}x_{ftc}.
+%\end{equation}
+\vfill
+
+\textbf{Minimize makespan}
+
+\emph{Minimizing makespan} requires a slightly different approach. Define a variable, $z$, that represents the maximum completion time of any flight. Because the completion time of flight $f$ is given by $\sum_{t = 0}^{T-p_f} \sum_{c = 1}^m (t + p_f)x_{ftc}$, the following set of constraints guarantees that $z$ is \emph{at least} as large as the makespan:
+\begin{equation} \label{e:basics3objmm_makespancon}
+z \ge \sum_{t = 0}^{T-p_f} \sum_{c = 1}^m (t + p_f)x_{jtc} \qquad \forall f \in F.
+\end{equation}
+Minimizing the makespan requires the following simple objective:
+\begin{equation} \label{e:basics3objmm_makespanobj}
+\textrm{Min } z.
+\end{equation}
+Because $z$ is being minimized, an optimal solution will exist in which $z$ equals the completion time of the latest flight to finish on a carrier. This is very similar idea to the p-center facility location.
+
+
+
+
+\end{document}
+\subsection{Permutation} \label{s:2.2}
+A different approach avoids the discretization of the time horizon as done in Section \ref{s:2.1}, and instead implicitly determines job starting times by stating the order in which jobs are scheduled on the machine. 
+
+We first consider a model that specifies the order in which each job is processed on the (single) machine. Define binary variables $x_{jq}$ that equal 1 if job $j \in \Jobs$ is the $q^{\textrm{th}}$ job processed on the machine, where $q \in \{1,\ldots,|\Jobs|\}$. Then, the following set of assignment constraints ensures that every job is assigned to one position in the permutation, and every position is assigned to one job:
+\begin{subequations}
+\label{e:basics4}
+\begin{align}
+& \sum_{q = 1}^{|\Jobs|} x_{jq} = 1 \qquad \forall j \in \Jobs \label{e:basics4a}\\
+& \sum_{j \in \Jobs} x_{jq} = 1 \qquad \forall q = 1,\ldots,|\Jobs|. \label{e:basics4b}
+\end{align}
+\end{subequations}
+
+These constraints are totally unimodular, meaning that every square submatrix of the constraint set has a determinant of $1$, $0$, or $-1$, and so optimizing a linear program over these constraints yields an extreme-point optimal solution whose values are integer. Put simply, there would be no reason to restrict the $x$-variables to be binary-valued if optimizing over a linear function, and if these were the only constraints in the formulation. 
+
+However, more constraints are almost always required in scheduling formulations of interest. Note that the completion time of job $j$ is given by
+\begin{equation} \label{e:basics5}
+    p_j + \sum_{q = 2}^{|\Jobs|}  x_{jq} \left( \sum_{i \in \Jobs} p_i \sum_{h = 1}^{q-1} x_{ih}  \right).
+\end{equation}
+That is, the completion time is $p_j$, plus the sum of job processing times that precede $j$ in the schedule. If $x_{j1} = 0$, \eqref{e:basics5} simplifies to $p_j$. Otherwise, let $\hat{q}$ be such that $x_{j\hat{q}} = 1$. Job $i$ precedes job $j$ in the schedule if $\sum_{h = 1}^{\hat{q}-1} x_{ih} = 1$.  Expression \eqref{e:basics5} therefore adds $p_i$ to the completion time for job $j$ when $i$ precedes $j$. 
+
+Unfortunately, \eqref{e:basics5} is a nonlinear  function. Thus, minimizing \eqref{e:basics5} over the assignment constraints in \eqref{e:basics4} is very difficult. As an alternative, we instead define \emph{precedence variables} $I_{ij}$, which determine whether job $i$ precedes job $j$ in a schedule, for $i, j \in \Jobs, \ i \ne j$. These constraints can be written in a number of different ways. For our purposes, we present them as:
+\begin{subequations}
+\label{e:basics6}
+\begin{align}
+& I_{ij} + I_{ji} = 1 \qquad \forall 1 \le i < j \le |\Jobs| \label{e:basics6a}\\
+& I_{ij} \ge x_{iq} + \sum_{h = q+1}^{|\Jobs|} x_{jh} - 1 \qquad \forall i, j \in \Jobs, \ i \ne j, \ q \in \{1,\ldots,|\Jobs|-1\}
+\label{e:basics6b}\\
+& I_{ij} \ge 0 \qquad \forall i, j \in \Jobs, \ i \ne j. \label{e:basics6c}
+\end{align}
+\end{subequations}
+Constraints \eqref{e:basics6a} state that either job $i$ precedes job $j$, or vice versa. (Note that by declaring these constraints for all $1 \le i < j \le |\Jobs|$, we examine only unique combinations of $i$ and $j$.) We then enumerate the conditions under which $i$ would precede $j$, which is done by \eqref{e:basics6b}. These constraints state that if job $i$ is placed in position $q$, and job $j$ is placed in a position after  $q$ (as determined by the summation on the right-hand side of \eqref{e:basics6b}), then the right-hand side of \eqref{e:basics6b} equals 1. This, along with \eqref{e:basics6a}, forces $I_{ij} = 1$ and $I_{ji} = 0$. 
+
+We can now represent the completion time of job $j$ by the following linear expression:
+\begin{equation} \label{e:basics7}
+    p_j + \left( \sum_{i \in \Jobs} p_i I_{ij} \right),
+\end{equation}
+where $I_{jj}$ is defined to be 0. This allows us to minimize weighted completion time using the objective
+\begin{equation} \label{e:basics7obj}
+    \textrm{min } \sum_{j \in \Jobs} \left( p_j + \left( \sum_{i \in \Jobs} p_i I_{ij} \right) \right).
+\end{equation}
+The resulting optimization problem requires binary restrictions on the $x$-variables, because the presence of constraints \eqref{e:basics6a}--\eqref{e:basics6c} destroys the totally unimodular constraint structure and allows fractional solutions to exist at optimality. The overall problem is given by:
+\begin{center}
+\begin{tabular}{|l|}
+\hline
+Optimize \eqref{e:basics7obj}, s.t.~constraints \eqref{e:basics4} and \eqref{e:basics6}, with $x$ binary. \\
+\hline
+\end{tabular}
+\end{center}
+
+\begin{remark} \label{r:0.4}
+Note that \eqref{e:basics6b} could equivalently be written as:
+\begin{equation*}
+I_{ij} \ge x_{jq} + \sum_{h = 1}^{q-1} x_{ih} - 1 \qquad \forall i, j \in \Jobs, \ i \ne j, \ q \in \{2,\ldots,|\Jobs|\},
+\end{equation*}
+which, when $x_{jq} = 1$, forces $I_{ij} = 1$ whenever job $i$ is scheduled in a position before $q$. 
+
+Also, constraints \eqref{e:basics6a} are not typically required, as their role simply forces $I_{ij} = 0$ whenever $I_{ji} = 1$. Hence, we can simply define $I_{ji} = 1 - I_{ij}$ and retain only variables $I_{ij}$ in the formulation, $\forall 1 \le i < j \le |\Jobs|$. Alternatively, one can typically just omit \eqref{e:basics6a}: Optimization will force the $I$-variables to be as small as possible if the objective is regular, and so an optimal solution will exist in which constraints \eqref{e:basics6a} are satisfied, even if those constraints are not present.
+\end{remark}
+
+\begin{remark} \label{r:0.5}
+A different approach that seems appealing at first glance is to define binary variables $x_{ij} = 1$ if job $i$ immediately precedes job $j$ in a sequence, and 0 otherwise, for all distinct job pairs $i$ and $j$. (For simplicity in notation, we define these variables for all job pairs $i$ and $j$, where $x_{ii}$ is simply defined to be 0, $\forall i \in \Jobs$.) Observe that every job (except the last one scheduled) must precede exactly one job, and that every job (except the first one scheduled) must be preceded by exactly one job in the sequence. To state these conditions, we define a dummy start job, 0, and a dummy end job, $e$. 
+Similar to job positioning constraints, we can impose the following assignment constraints:
+\begin{subequations}
+\label{e:basics8}
+\begin{align}
+& \sum_{i \in \Jobs \cup \{0\}} x_{ij} = 1 \qquad \forall j \in \Jobs \label{e:basics8a}\\
+& \sum_{j \in \Jobs \cup \{e\}} x_{ij} = 1 \qquad \forall i \in \Jobs. \label{e:basics8b}
+\end{align}
+We would also require that the dummy start job immediately precedes one job:
+\begin{equation}
+\sum_{j \in \Jobs} x_{0j} = 1,  \label{e:basics8c}
+\end{equation}
+and that one job precedes the dummy end job:
+\begin{equation}
+\sum_{i \in \Jobs} x_{ie} = 1.  \label{e:basics8d}
+\end{equation}
+\end{subequations}
+In fact, this is the same modeling philosophy used to represent the traveling salesperson problem (TSP), or more precisely, the Hamiltonian Path problem with fixed starting and ending nodes. Just as in the TSP, the collection of constraints \eqref{e:basics8} are not sufficient to enforce a valid schedule, because of the presence of \emph{subtours}. For instance, if $|\Jobs| = 5$, then one solution might yield the following:
+\begin{equation*}
+    x_{01} = x_{12} = x_{2e} = 1, \textrm{ and } x_{34} = x_{45} = x_{53} = 1.
+\end{equation*}
+These values satisfy constraints \eqref{e:basics8}, but do not form a sensible schedule, as job 3 precedes job 4, which precedes job 5, which precedes job 3. The cycle 3--4--5--3 is an example of a subtour. These subtours can indeed be eliminated either using an exponential set of \emph{subtour elimination constraints}, or using an auxiliary set of variables that state the relative position of each job \cite{MillerEtal60}. We refer the reader to the seminal work of \cite{ApplegateEtal06} for a thorough study of TSP models. The strategy of \cite{MillerEtal60} is particularly relevant to this chapter, as it relates to the idea of employing variables that determine at which time a job starts processing. Hence, rather than fully explore TSP-inspired scheduling models, we turn our attention to continuous-start-time models in Section \ref{s:2.3}.
+\end{remark}
+
+\subsubsection{Multiple Machines} We return to the job-positioning variable strategy explored in equations \eqref{e:basics4}--\eqref{e:basics7obj}, and consider how this strategy can be extended for the case of multiple machines. First, we expand the variable indices to include a machine index $c$. Thus, $x_{jqc}$ equals 1 if job $j \in \Jobs$ is the $q^\textrm{th}$ job on machine $c$, and is 0 otherwise. The assignment constraints are adjusted to state that every job must be scheduled in some position on some machine, and every position on a machine must be assigned to \emph{no more than} one job. Note that some machine-position combinations will have no jobs assigned to them now, because with multiple machines, it is impossible to ascertain how many jobs will exist on each machine before solving the problem.
+\begin{subequations}
+\label{e:basics4mm}
+\begin{align}
+& \sum_{q = 1}^{|\Jobs|} \sum_{c = 1}^m x_{jqc} = 1 \qquad \forall j \in \Jobs \label{e:basics4mma}\\
+& \sum_{j \in \Jobs} x_{jqc} \le 1 \qquad \forall q = 1,\ldots,|\Jobs|, \ c = 1,\ldots,m \label{e:basics4mmb}
+\end{align}
+Note that constraints \eqref{e:basics4mm} in fact allow a machine to have no assigned job to position $q$, while having a job assigned to position $q+1$. This by itself will not cause the model to fail (this would be akin to having a zero-processing time ``phantom" job sitting in position $q$); however, it does generate symmetric solutions that should be avoided. Hence, we instead eliminate these ``phantom" jobs by insisting that if there are $k$ jobs assigned to a machine, they are positioned $1,\ldots,k$ with no gaps in between. We can achieve this by revising \eqref{e:basics4mmb} as:
+\begin{align} 
+& \sum_{j \in \Jobs} x_{j1c} \le 1 \qquad \forall c = 1,\ldots,m \label{e:basics4mmb_revised_a}\\
+& \sum_{j \in \Jobs} x_{jqc} \le \sum_{j \in \Jobs} x_{j(q-1)c} \qquad \forall q = 2,\ldots,|\Jobs|, \  c = 1,\ldots,m. \label{e:basics4mmb_revised_b}
+\end{align}
+\end{subequations}
+Constraints \eqref{e:basics4mmb_revised_a} require that the first position on any machine $c$ cannot be occupied by more than one job. For every subsequent position $q$, \eqref{e:basics4mmb_revised_b} requires that one job can be placed in position $q$ on machine $c$, only if position $q-1$ was also occupied on the machine. (Otherwise, no job can be placed in position $q$ on machine $c$.)
+
+These new variable definitions now require a more specific definition of $I_{ij}$: Those variables should equal 1 if job $i$ precedes job $j$ on a common machine. Hence, if jobs $i$ and $j$ are scheduled on two different machines, then $I_{ij} = I_{ji} = 0$. With this revision in mind, we no longer impose \eqref{e:basics6a} and revise \eqref{e:basics6b} as:
+\begin{equation}
+\label{e:basics6mm}
+I_{ij} \ge x_{iqc} + \sum_{h = q+1}^{|\Jobs|} x_{jhc} - 1 \qquad \forall i, j \in \Jobs, \ i \ne j, \ 
+q = 1,\ldots,|\Jobs|-1, \ c = 1,\ldots,m. 
+\end{equation}
+As referenced above, constraints \eqref{e:basics6mm} force $I_{ij} = 1$ when $i$ precedes $j$ on some machine. They do not force $I_{ij} = 0$ when $i$ does not precede $j$ on a machine; however, optimality will enforce this condition for regular objectives.
+
+Because completion time is still given by \eqref{e:basics7}, the objective \eqref{e:basics7obj} can still be used without modification.
+
+\subsubsection{Alternative Objectives} 
+
+For \emph{weighted tardiness}, we have that the tardiness for job $j \in \Jobs$ is now given by
+\begin{equation*}
+    \max\left\{0,p_j + \left( \sum_{i \in \Jobs} p_i I_{ij} \right) - d_j\right\}.
+\end{equation*} 
+However, this expression is nonlinear, and minimizing the sum of these terms leads to a nonlinear mixed-integer program. Fortunately, these terms are piecewise-linear and convex, and are thus amenable to a standard reformulation using linear constraints. Define variable $\tau_j$ as the tardiness for job $j \in \Jobs$, and note that the following constraints must hold for job $j$:
+\begin{subequations}
+\label{e:basics6_tardy}
+\begin{align}
+    & \tau_j \ge p_j + \left( \sum_{i \in \Jobs} p_i I_{ij} \right) - d_j \label{e:basics6_tardy_a}\\
+    & \tau_j \ge 0. \label{e:basics6_tardy_b}
+\end{align}
+\end{subequations}
+These constraints guarantee that $\tau_j \ge \max\{0,p_j + \left( \sum_{i \in \Jobs} p_i I_{ij} \right) - d_j\}$. Because we will seek to minimize weighted tardiness, $\tau_j$ equals this desired maximum value at optimality. The objective function simply becomes:
+\begin{equation}
+    \textrm{Min } \sum_{j \in \Jobs} w_j \tau_j. \label{e:basics6_tardy_c}
+\end{equation}
+
+To \emph{minimize the number of late jobs}, we now need to define binary variables $z_j$, $\forall j \in \Jobs$, which equal 1 if job $j$ will be scheduled late, and 0 otherwise. The objective function is given as:
+\begin{equation} \label{e:basics6_late_a}
+\textrm{Min } \sum_{j \in \Jobs} z_j.
+\end{equation}
+To guarantee that $z_j = 1$ when job $j$ is late, we state that the completion time for job $j$ must be no later than $d_j$, unless job $j$ is late (and $z_j = 1$). The following constraints enforce those conditions:
+\begin{equation}
+p_j + \left( \sum_{i \in \Jobs} p_i I_{ij} \right) \le d_j + (T - d_j)z_j \qquad \forall j \in \Jobs. \label{e:basics6_late_b}
+\end{equation}
+Note that if $z_j = 0$, then job $j$ completes on or before the due date. If the job is late, then $z_j = 1$, and the completion time is only restricted to be no more than $T$.
+
+The objective of \emph{minimizing makespan} is similar to the approach used in Section \ref{s:2.1}. Letting $z$ represent makespan, we define an objective variable $z$, and create the objective
+\begin{equation} \label{e:basics6_makespan_a}
+\textrm{min } z.
+\end{equation}
+The constraints 
+\begin{equation} \label{e:basics6_makespan_b}
+z \ge p_j + \left( \sum_{i \in \Jobs} p_i I_{ij} \right) \qquad \forall j \in \Jobs
+\end{equation}
+guarantee that $z$ is at least as large as the latest completion time; the objective \eqref{e:basics6_makespan_a} guarantees that $z$ equals the largest completion time.
+

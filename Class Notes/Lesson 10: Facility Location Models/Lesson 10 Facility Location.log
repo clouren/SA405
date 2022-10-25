@@ -1,9 +1,9 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2020.8.6)  14 JUL 2022 15:18
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2020.8.6)  11 OCT 2022 15:04
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
-**"Lesson 11 Facility Location.tex"
-(./Lesson 11 Facility Location.tex
+**"Lesson 10 Facility Location.tex"
+(./Lesson 10 Facility Location.tex
 LaTeX2e <2017-04-15>
 Babel <3.18> and hyphenation patterns for 84 language(s) loaded.
 (/usr/share/texlive/texmf-dist/tex/latex/base/article.cls
@@ -808,8 +808,8 @@ e.tex
 File: pgflibrarypatterns.code.tex 2008/03/03 v3.0.1a (rcs-revision 1.13)
 ))
 (/usr/share/texlive/texmf-dist/tex/generic/pgfplots/libs/tikzlibrarypgfplots.po
-lar.code.tex) (./Lesson 11 Facility Location.aux)
-\openout1 = `"Lesson 11 Facility Location.aux"'.
+lar.code.tex) (./Lesson 10 Facility Location.aux)
+\openout1 = `"Lesson 10 Facility Location.aux"'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 149.
 LaTeX Font Info:    ... okay on input line 149.
@@ -990,18 +990,18 @@ Overfull \hbox (1.56157pt too wide) in paragraph at lines 299--310
 [4] [5] [6] [7]
 File: facloc.png Graphic file (type png)
 <use facloc.png>
-Package pdftex.def Info: facloc.png  used on input line 379.
+Package pdftex.def Info: facloc.png  used on input line 383.
 (pdftex.def)             Requested size: 234.8775pt x 221.07889pt.
  [8] [9]
 File: Distances.jpg Graphic file (type jpg)
 <use Distances.jpg>
-Package pdftex.def Info: Distances.jpg  used on input line 470.
+Package pdftex.def Info: Distances.jpg  used on input line 474.
 (pdftex.def)             Requested size: 140.92793pt x 160.03552pt.
 File: facloc.png Graphic file (type png)
 <use facloc.png>
-Package pdftex.def Info: facloc.png  used on input line 470.
+Package pdftex.def Info: facloc.png  used on input line 474.
 (pdftex.def)             Requested size: 187.89914pt x 176.86075pt.
- [10] [11] (./Lesson 11 Facility Location.aux) ) 
+ [10] [11] (./Lesson 10 Facility Location.aux) ) 
 Here is how much of TeX's memory you used:
  29086 strings out of 492982
  710725 string characters out of 6134897
@@ -1021,7 +1021,7 @@ cm/cmmi8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr1
 usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/sh
 are/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/share/tex
 live/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb>
-Output written on "Lesson 11 Facility Location.pdf" (11 pages, 235564 bytes).
+Output written on "Lesson 10 Facility Location.pdf" (11 pages, 235818 bytes).
 PDF statistics:
  91 PDF objects out of 1000 (max. 8388607)
  63 compressed objects within 1 object stream
